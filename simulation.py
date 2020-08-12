@@ -21,6 +21,7 @@ def run(problem, decisionfunc):
 
 		decision = problem["oneof"][decisionindex]
 		history.append(decisionindex)#[step, decisionindex])#also have to add invalid decisions
+		# TODO: allow null/None decision?
 		if all([condition(env) for condition in decision[0]]):
 			for effect in decision[1]:
 				effect(env)

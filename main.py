@@ -10,10 +10,13 @@ sproblem = {
 		[[],[["add", "money",1],]],#manual click
 		[[["atleast", "money",10],], [["add", "money", -10], ["add", "ship", 1]]],#buy ship
 		[[["atleast", "ship",1],],[["add", "money", 5], ["add", "ship", -1]]],#sell ship
+		[[["atleast", "money",20],], [["add", "money", -20], ["add", "factory", 1]]],#buy factory
+		[[["atleast", "factory",1],],[["add", "money", 10], ["add", "factory", -1]]],#sell factory
 	],
 
 	"always" : [
-		[[], [["addMultiply", "money", "ship", 3],]],
+		[[], [["addMultiply", "money", "ship", 3],]],#ship income
+		[[], [["addMultiply", "money", "factory", 5],]],#factory income
 	],
 
 	"score": ["get", "money"]
@@ -22,7 +25,5 @@ sproblem = {
 problem = convert(sproblem)
 
 env, history = simgame(problem)
-compressed = compress(history)
-print(compressed)
-print(decompress(compressed))
+print(compress(history))
 playergame(problem, step=True)
