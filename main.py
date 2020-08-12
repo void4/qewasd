@@ -14,7 +14,9 @@ sproblem = {
 
 	"always" : [
 		[[], [["addMultiply", "money", "ship", 3],]],
-	]
+	],
+
+	"score": ["get", "money"]
 }
 
 problem = convert(sproblem)

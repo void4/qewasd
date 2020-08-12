@@ -61,9 +61,10 @@ def simgame(problem):
 
 		env, history = run(problem, decisionfunc=df_rand)
 
-		if record is None or env["money"] > record:
-			print("New record:", env)#, history)#sim,
-			record = env["money"]
+		score = problem["score"](env)
+		if record is None or score > record:
+			print("New record:", score, env)#, history)#sim,
+			record = score
 			recordhistory = history
 
 	print("Replaying record...")
