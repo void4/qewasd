@@ -1,5 +1,4 @@
-
-problem = convert(sproblem)
+from random import choice, randint
 
 def run(problem, decisionfunc):
 
@@ -40,7 +39,7 @@ def df_player(problem, env, history, step):
 def playergame(problem):
 	env, history = run(problem, decisionfunc=df_player)
 
-def replay(truehistory):
+def replay(problem, truehistory):
 	def df_history(problem, env, history, step):
 		for pair in truehistory:
 			if pair[0] == step:
@@ -68,5 +67,5 @@ def simgame(problem):
 			recordhistory = history
 
 	print("Replaying record...")
-	r_env, r_history = replay(recordhistory)
+	r_env, r_history = replay(problem, recordhistory)
 	print(r_env)

@@ -1,13 +1,10 @@
-from random import choice, randint
-from collections import defaultdict
-
 from functions import convert
 from simulation import simgame, playergame
 
 # conditions, effects
 sproblem = {
 	"steps": 100,
-	
+
 	"oneof" : [
 		#[[],[]],#do nothing
 		[[],[["add", "money",1],]],#manual click
