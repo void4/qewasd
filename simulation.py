@@ -1,4 +1,7 @@
 from random import choice, randint
+import json
+import base64
+import zlib
 
 def run(problem, decisionfunc):
 
@@ -17,7 +20,7 @@ def run(problem, decisionfunc):
 		decisionindex = decisionfunc(problem, env, history, step)
 
 		decision = problem["oneof"][decisionindex]
-		history.append((step, decisionindex))#also have to add invalid decisions
+		history.append(decisionindex)#[step, decisionindex])#also have to add invalid decisions
 		if all([condition(env) for condition in decision[0]]):
 			for effect in decision[1]:
 				effect(env)
@@ -45,10 +48,12 @@ def playergame(problem, step):
 
 def replay(problem, truehistory):
 	def df_history(problem, env, history, step):
+		"""
 		for pair in truehistory:
 			if pair[0] == step:
 				return pair[1]
-
+		"""
+		return truehistory[step]
 	return run(problem, decisionfunc=df_history)
 
 def df_rand(problem, env, history, step):
@@ -56,7 +61,7 @@ def df_rand(problem, env, history, step):
 
 def simgame(problem):
 
-	SIMS = 10000
+	SIMS = 1000
 
 	record = None
 	recordhistory = None
@@ -74,3 +79,11 @@ def simgame(problem):
 	print("Replaying record...")
 	r_env, r_history = replay(problem, recordhistory)
 	print(r_env)
+	print(r_history)
+	return r_env, r_history
+
+def decompress(history):
+	return json.loads(zlib.decompress(base64.urlsafe_b64decode(history.encode("utf8"))).decode("utf8"))
+
+def compress(history):
+	return base64.urlsafe_b64encode(zlib.compress(json.dumps(history).encode("utf8"))).decode("utf8")

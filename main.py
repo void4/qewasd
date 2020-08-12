@@ -1,9 +1,9 @@
 from functions import convert
-from simulation import simgame, playergame
+from simulation import simgame, playergame, compress, decompress
 
 # conditions, effects
 sproblem = {
-	"steps": 1000,
+	"steps": 100,
 
 	"oneof" : [
 		[[],[]],#do nothing
@@ -21,5 +21,8 @@ sproblem = {
 
 problem = convert(sproblem)
 
-simgame(problem)
+env, history = simgame(problem)
+compressed = compress(history)
+print(compressed)
+print(decompress(compressed))
 playergame(problem, step=True)
