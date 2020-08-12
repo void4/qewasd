@@ -3,13 +3,13 @@ from simulation import simgame, playergame
 
 # conditions, effects
 sproblem = {
-	"steps": 100,
+	"steps": 1000,
 
 	"oneof" : [
-		#[[],[]],#do nothing
+		[[],[]],#do nothing
 		[[],[["add", "money",1],]],#manual click
-		[[["atleast", "money",5],], [["add", "money", -5], ["add", "ship", 1]]],#buy ship
-		[[["atleast", "ship",1],],[["add", "money", 3], ["add", "ship", -1]]],#sell ship
+		[[["atleast", "money",10],], [["add", "money", -10], ["add", "ship", 1]]],#buy ship
+		[[["atleast", "ship",1],],[["add", "money", 5], ["add", "ship", -1]]],#sell ship
 	],
 
 	"always" : [
@@ -22,4 +22,4 @@ sproblem = {
 problem = convert(sproblem)
 
 simgame(problem)
-playergame(problem)
+playergame(problem, step=True)

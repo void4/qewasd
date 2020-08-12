@@ -36,7 +36,11 @@ def df_player(problem, env, history, step):
 
 	return decisionindex
 
-def playergame(problem):
+def df_player_nowait(problem, env, history, step):
+	raise NotImplementedError("Not implemented yet!")
+
+def playergame(problem, step):
+	decisionfunc = df_player if step else df_player_nowait
 	env, history = run(problem, decisionfunc=df_player)
 
 def replay(problem, truehistory):
