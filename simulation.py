@@ -60,14 +60,12 @@ def replay(problem, truehistory):
 def df_rand(problem, env, history, step):
 	return randint(0, len(problem["oneof"])-1)
 
-def simgame(problem):
-
-	SIMS = 1000
+def simgame(problem, sims=1000):
 
 	record = None
 	recordhistory = None
 
-	for sim in range(SIMS):
+	for sim in range(sims):
 
 		env, history = run(problem, decisionfunc=df_rand)
 
