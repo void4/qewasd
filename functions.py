@@ -55,17 +55,17 @@ def key_replace(d, k, f):
 
 def convert(sproblem):
 	problem = deepcopy(sproblem)
-	for pair in problem["oneof"]:
-		for i, condition in enumerate(pair[0]):
-			element_replace(pair[0], i, condition)
-		for i, effect in enumerate(pair[1]):
-			element_replace(pair[1], i, effect)
+	for triple in problem["oneof"]:
+		for i, condition in enumerate(triple[1]):
+			element_replace(triple[1], i, condition)
+		for i, effect in enumerate(triple[2]):
+			element_replace(triple[2], i, effect)
 
-	for pair in problem["always"]:
-		for i, condition in enumerate(pair[0]):
-			element_replace(pair[0], i, condition)
-		for i, effect in enumerate(pair[1]):
-			element_replace(pair[1], i, effect)
+	for triple in problem["always"]:
+		for i, condition in enumerate(triple[1]):
+			element_replace(triple[1], i, condition)
+		for i, effect in enumerate(triple[2]):
+			element_replace(triple[2], i, effect)
 
 	key_replace(problem, "score", problem["score"])
 

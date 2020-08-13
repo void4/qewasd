@@ -16,8 +16,8 @@ def run(problem, decisionfunc):
 		env["step"] = step
 
 		for thing in problem["always"]:
-			if all([condition(env) for condition in thing[0]]):
-				for effect in thing[1]:
+			if all([condition(env) for condition in thing[1]]):
+				for effect in thing[2]:
 					effect(env)
 
 		decisionindex = decisionfunc(problem, env, history, step)
@@ -26,8 +26,8 @@ def run(problem, decisionfunc):
 		history.append(decisionindex)#[step, decisionindex])#also have to add invalid decisions
 		# TODO: allow null/None decision?
 		# TODO: specify behavior on invalid decisions
-		if all([condition(env) for condition in decision[0]]):
-			for effect in decision[1]:
+		if all([condition(env) for condition in decision[1]]):
+			for effect in decision[2]:
 				effect(env)
 
 	return env, history
