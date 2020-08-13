@@ -2,6 +2,9 @@ from random import choice, randint
 import json
 import base64
 import zlib
+from time import sleep
+
+from io_utils import NonBlockingInput
 
 def run(problem, decisionfunc):
 
@@ -22,6 +25,7 @@ def run(problem, decisionfunc):
 		decision = problem["oneof"][decisionindex]
 		history.append(decisionindex)#[step, decisionindex])#also have to add invalid decisions
 		# TODO: allow null/None decision?
+		# TODO: specify behavior on invalid decisions
 		if all([condition(env) for condition in decision[0]]):
 			for effect in decision[1]:
 				effect(env)
@@ -40,12 +44,41 @@ def df_player(problem, env, history, step):
 
 	return decisionindex
 
-def df_player_nowait(problem, env, history, step):
-	raise NotImplementedError("Not implemented yet!")
+def df_player_nowait_wrapper():
+
+	nbi = NonBlockingInput(exit_condition='quit')
+
+	def df_player_nowait(problem, env, history, step):
+
+		print("Step", step)
+
+		sleep(1)
+
+		decisionindex = None
+
+		if nbi.input_queued():
+			inp = nbi.input_get()
+			print("GOT", inp)
+			try:
+				inp = int(inp)
+				if 0 <= inp < len(problem["oneof"]):
+					decisionindex = inp
+			except ValueError:
+				pass
+
+		return 0 if decisionindex == None else decisionindex
+
+	return df_player_nowait
 
 def playergame(problem, step):
-	decisionfunc = df_player if step else df_player_nowait
-	env, history = run(problem, decisionfunc=df_player)
+
+	if step:
+		decisionfunc = df_player
+	else:
+
+		decisionfunc = df_player_nowait_wrapper()
+
+	env, history = run(problem, decisionfunc=decisionfunc)
 
 def replay(problem, truehistory):
 	def df_history(problem, env, history, step):

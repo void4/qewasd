@@ -24,6 +24,6 @@ sproblem = {
 
 problem = convert(sproblem)
 
-env, history = simgame(problem, 10000)
+env, history = simgame(problem, 1000)
 print(compress(history))
-playergame(problem, step=True)
+playergame(problem, step=False)
