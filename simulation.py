@@ -50,7 +50,7 @@ def df_player_nowait_wrapper():
 
 	def df_player_nowait(problem, env, history, step):
 
-		print("Step", step)
+		print("Step:", step, "\tScore:", problem["score"](env))
 
 		sleep(1)
 
