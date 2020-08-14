@@ -6,6 +6,42 @@ from time import sleep
 
 from io_utils import NonBlockingInput
 
+# Todo: run single step, recalculate score at every step into env
+
+def single_step(problem, env, history, decisionfunc):
+	env["step"] = env.get("step", 0) + 1
+	step = env["step"]
+
+	for thing in problem["always"]:
+		if all([condition(env) for condition in thing[1]]):
+			for effect in thing[2]:
+				effect(env)
+
+	if callable(decisionfunc):
+		decisionindex = decisionfunc(problem, env, history, step)
+	elif isinstance(decisionfunc, int):
+		decisionindex = decisionfunc
+	else:
+		# assume string
+		for index, decision in enumerate(problem["oneof"]):
+			if decision[0] == decisionfunc:
+				decisionindex = index
+				break
+		else:
+			raise ValueError("Invalid decision name", decisionfunc)
+
+	decision = problem["oneof"][decisionindex]
+	history.append(decisionindex)#[step, decisionindex])#also have to add invalid decisions
+	# TODO: allow null/None decision?
+	# TODO: specify behavior on invalid decisions
+	if all([condition(env) for condition in decision[1]]):
+		for effect in decision[2]:
+			effect(env)
+
+	env["score"] = problem["score"](env)
+
+	return env, history
+
 def run(problem, decisionfunc):
 
 	env = {}
@@ -13,22 +49,7 @@ def run(problem, decisionfunc):
 
 	for step in range(problem["steps"]):
 
-		env["step"] = step
-
-		for thing in problem["always"]:
-			if all([condition(env) for condition in thing[1]]):
-				for effect in thing[2]:
-					effect(env)
-
-		decisionindex = decisionfunc(problem, env, history, step)
-
-		decision = problem["oneof"][decisionindex]
-		history.append(decisionindex)#[step, decisionindex])#also have to add invalid decisions
-		# TODO: allow null/None decision?
-		# TODO: specify behavior on invalid decisions
-		if all([condition(env) for condition in decision[1]]):
-			for effect in decision[2]:
-				effect(env)
+		env, history = single_step(problem, env, history, decisionfunc)
 
 	return env, history
 

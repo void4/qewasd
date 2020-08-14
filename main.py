@@ -3,7 +3,7 @@ from simulation import simgame, playergame, compress, decompress
 
 # conditions, effects
 sproblem = {
-	"steps": 100,
+	"steps": 25,
 
 	"oneof" : [
 		["do nothing", [],[]],
@@ -24,6 +24,7 @@ sproblem = {
 
 problem = convert(sproblem)
 
-env, history = simgame(problem, 1000)
-print(compress(history))
-playergame(problem, step=False)
+if __name__ == "__main__":
+	env, history = simgame(problem, 1000)
+	print(compress(history))
+	playergame(problem, step=False)

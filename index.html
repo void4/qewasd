@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link rel="icon" href="data:;base64,=">
+<title>Clicker</title>
+<script type="text/javascript" src="socket.io.js"></script>
+<script type="text/javascript" src="vue.js"></script>
+<script>
+var socket = io('http://localhost:5000');
+
+socket.on('connect', function(){
+
+});
+
+socket.on('event', function(data){
+  console.log(data)
+});
+
+socket.on('json', function(message){
+  console.log(message)
+  var type = message["type"]
+  var data = message["data"]
+  if (type == "problem") {
+    app.problem = data;
+  } else if (type == "env") {
+    app.env = data;
+    app.score = data.score;
+    app.step = data.step;
+    delete app.env.score;
+    delete app.env.step;
+  } else if (type == "history") {
+    app.history = data;
+  } else if (type == "records") {
+    app.problem = {};
+    app.env = {}
+    app.records = data;
+  }
+});
+
+socket.on('message', function(data){
+  console.log(data)
+});
+
+socket.on('disconnect', function(){
+
+});
+
+
+</script>
+</head>
+<body>
+
+<div id="app">
+
+  <h3>Score: {{score}}</h3>
+  <h4>Step: {{step}}/{{problem.steps}}</h4><br><br>
+
+  <div v-if="env">
+    <h2>Scores</h2>
+    <div v-for="(value, key) in env">
+      {{key}}: {{value}}
+    </div>
+  </div>
+
+  <div v-if="records">
+    <div v-for="record in records">
+      {{record[0]}}: {{record[1]}}
+    </div>
+  </div>
+
+  <!--
+  <button id="autostep">Autostep</button>
+  <input id="autostepspeed" type="text" value="1"></input>
+  <button id="step">Step</button>
+-->
+
+  <div style="display:flex;justify-content:center;flex-direction:column;">
+    <div v-for="decision in problem.oneof" style="display:grid;grid-template-columns:30% auto 30%">
+      {{decision[1]}}
+      <button v-on:click="decide(decision[0])">{{decision[0]}}</button>
+      {{decision[2]}}
+    </div>
+  </div>
+
+  <br>
+  {{ history }}
+
+</div>
+
+<script>
+var app = new Vue({
+  el: '#app',
+  data: {
+    problem: {},
+    env: {},
+    history: [],
+    step: 0,
+    score: 0,
+    records: [],
+  },
+  methods: {
+    decide(name) {
+      socket.emit("json", {"type":"decision", "data":name})
+    }
+  }
+})
+</script>
+</body>
+</html>
