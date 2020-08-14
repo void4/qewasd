@@ -81,8 +81,11 @@ def handle_json(j):
 
 if __name__ == '__main__':
 
-    with open("records.txt") as recordfile:
-        lines = recordfile.read().splitlines()
+    try:
+        with open("records.txt") as recordfile:
+            lines = recordfile.read().splitlines()
+    except FileNotFoundError:
+        pass
 
     for line in lines:
         line = json.loads(line)
