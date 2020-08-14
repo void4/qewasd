@@ -30,6 +30,7 @@ records = defaultdict(list)
 
 @socketio.on('json')
 def handle_json(j):
+    global records
     print('received json: ' + str(j))
     if j["type"] == "problem":
         session["sproblem"] = problems[j["data"]]
