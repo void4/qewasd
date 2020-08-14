@@ -8,7 +8,7 @@ problems = [
 
 	"start": {
 		"money": 0,
-	}
+	},
 
 	"oneof" : [
 		#["do nothing", [],[]],
@@ -28,7 +28,7 @@ problems = [
 
 	"start": {
 		"money": 0,
-	}
+	},
 
 	"oneof" : [
 		#["do nothing", [],[]],
@@ -54,7 +54,7 @@ problems = [
 
 	"start": {
 		"money": 5,
-	}
+	},
 
 	"oneof" : [
 		#["do nothing", [],[]],
