@@ -76,7 +76,7 @@ problems = [
 		["buy workshop", [["atleast", "money",35],], [["add", "money", -35], ["add", "workshop", 1]]],
 		["sell workshop", [["atleast", "workshop",1],],[["add", "money", 15], ["add", "workshop", -1]]],
 		["buy bank", [["atleast", "money",60],], [["add", "money", -60], ["add", "bank", 1]]],
-		["sell bank", [["atleast", "factory",1],],[["add", "money", 30], ["add", "bank", -1]]],
+		["sell bank", [["atleast", "bank",1],],[["add", "money", 30], ["add", "bank", -1]]],
 	],
 
 	"always" : [
