@@ -33,7 +33,8 @@ socket.on('json', function(message){
     app.history = data;
   } else if (type == "records") {
     app.problem = {};
-    app.env = {}
+    app.env = {};
+    app.history = [];
     app.records = data;
   }
 });
@@ -84,8 +85,20 @@ socket.on('disconnect', function(){
   </div>
 
   <br>
-  {{ history }}
 
+  <div style="display:flex;justify-content:center;flex-direction:column;">
+    <div v-for="decision in problem.always" style="display:grid;grid-template-columns:30% auto 30%">
+      <div>{{decision[1]}}</div>
+      <div>{{decision[0]}}</div>
+      <div>{{decision[2]}}</div>
+    </div>
+  </div>
+
+  <br>
+
+  <div v-if="history">
+    {{ history }}
+  </div>
 </div>
 
 <script>
