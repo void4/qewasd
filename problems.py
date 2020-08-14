@@ -6,6 +6,10 @@ problems = [
 
 	"steps": 15,
 
+	"start": {
+		"money": 0,
+	}
+
 	"oneof" : [
 		#["do nothing", [],[]],
 		["manual click", [],[["add", "money",1],]],
@@ -21,6 +25,10 @@ problems = [
 	"name": "Symmetric Ships and Factories",
 
 	"steps": 25,
+
+	"start": {
+		"money": 0,
+	}
 
 	"oneof" : [
 		#["do nothing", [],[]],
@@ -43,6 +51,10 @@ problems = [
 	"name": "Asymmetric Ships and Factories",
 
 	"steps": 25,
+
+	"start": {
+		"money": 5,
+	}
 
 	"oneof" : [
 		#["do nothing", [],[]],

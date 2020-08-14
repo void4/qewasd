@@ -84,6 +84,14 @@ socket.on('disconnect', function(){
     <button id="step">Step</button>
   -->
 
+
+    <div v-if="env">
+      <h2>World</h2>
+      <div v-for="(value, key) in env">
+        {{key}}: {{value}}
+      </div>
+    </div>
+
     <h2>One of</h2>
     <div style="display:flex;justify-content:center;flex-direction:column;">
       <div style="display:grid;grid-template-columns:30% auto 30%">
@@ -113,14 +121,6 @@ socket.on('disconnect', function(){
         <div>{{decision[2]}}</div>
       </div>
     </div>
-
-    <div v-if="env">
-      <h2>World</h2>
-      <div v-for="(value, key) in env">
-        {{key}}: {{value}}
-      </div>
-    </div>
-
 
     <br>
 

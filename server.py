@@ -1,4 +1,5 @@
 from collections import defaultdict, Counter
+from copy import deepcopy
 import json
 
 from flask import Flask, render_template, session
@@ -35,7 +36,8 @@ def handle_json(j):
     if j["type"] == "problem":
         session["sproblem"] = problems[j["data"]]
         session["problem"] = convert(session["sproblem"])
-        session["env"] = {"step":0}
+        session["env"] = deepcopy(session["problem"]["start"])
+        session["env"]["step"] = 0
         session["history"] = []
         sendj("problem", session["sproblem"])
         sendj("env", session["env"])
