@@ -42,6 +42,10 @@ def handle_json(j):
         sendj("history", session["history"])
 
     elif j["type"] == "decision":
+
+        if session["env"] is None:
+            return
+
         if session["env"]["step"] == session["problem"]["steps"]:
             problemkey = json.dumps(session["sproblem"])
             records[problemkey].append([session["env"], session["history"]])
@@ -57,8 +61,10 @@ def handle_json(j):
                 if record[0] == session["env"]["score"]:
                     index = i
 
+            session["env"] = None
             sendj("records", {"records":sortedrecords, "index":index})
         else:
+            # TODO avoid double submits somehow
             session["env"], session["history"] = single_step(session["problem"], session["env"], session["history"], j["data"])
             sendj("env", session["env"])
             sendj("history", session["history"])
