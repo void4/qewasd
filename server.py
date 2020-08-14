@@ -54,13 +54,13 @@ def handle_json(j):
             for record in records[problemkey]:
                 c[record[0]["score"]] += 1
 
-            records = sorted(c.items(), key=lambda item:item[0], reverse=True)
+            sortedrecords = sorted(c.items(), key=lambda item:item[0], reverse=True)
 
-            for i, record in enumerate(records):
+            for i, record in enumerate(sortedrecords):
                 if record[0] == session["env"]["score"]:
                     index = i
 
-            sendj("records", {"records":records, "index":index})
+            sendj("records", {"records":sortedrecords, "index":index})
 
     elif j["type"] == "continue":
         sendj("problems", problems)
