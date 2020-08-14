@@ -48,7 +48,14 @@ def handle_json(j):
         if session["env"] is None:
             return
 
+        # TODO avoid double submits somehow
+        session["env"], session["history"] = single_step(session["problem"], session["env"], session["history"], j["data"])
+
         if session["env"]["step"] == session["problem"]["steps"]:
+
+            with open("records.txt", "w") as recordfile:
+                recordfile.write(json.dumps([session["sproblem"], session["env"], session["history"]])+"\n")
+
             problemkey = json.dumps(session["sproblem"])
             records[problemkey].append([session["env"], session["history"]])
 
@@ -66,8 +73,6 @@ def handle_json(j):
             session["env"] = None
             sendj("records", {"records":sortedrecords, "index":index})
         else:
-            # TODO avoid double submits somehow
-            session["env"], session["history"] = single_step(session["problem"], session["env"], session["history"], j["data"])
             sendj("env", session["env"])
             sendj("history", session["history"])
 
