@@ -1,6 +1,8 @@
 # conditions, effects
 problems = [
 {
+	"name": "Ships and Factories",
+
 	"steps": 25,
 
 	"oneof" : [
