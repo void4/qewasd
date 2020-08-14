@@ -4,6 +4,7 @@
 <meta charset="utf-8" />
 <link rel="icon" href="data:;base64,=">
 <title>Clicker</title>
+<link rel="stylesheet" href="drop-in.css">
 <script type="text/javascript" src="socket.io.js"></script>
 <script type="text/javascript" src="vue.js"></script>
 <script>
@@ -68,15 +69,15 @@ socket.on('disconnect', function(){
 
   <div v-if="problem">
     <h1>Score: {{score}}</h1>
+    {{ problem.score }}
     <h4>Step: {{step}}/{{problem.steps}}</h4><br><br>
 
     <div v-if="env">
-      <h2>Scores</h2>
+      <h2>World</h2>
       <div v-for="(value, key) in env">
         {{key}}: {{value}}
       </div>
     </div>
-
 
 
     <!--
@@ -85,6 +86,7 @@ socket.on('disconnect', function(){
     <button id="step">Step</button>
   -->
 
+    <h2>One of</h2>
     <div style="display:flex;justify-content:center;flex-direction:column;">
       <div style="display:grid;grid-template-columns:30% auto 30%">
         <div>Condition</div>
@@ -100,6 +102,7 @@ socket.on('disconnect', function(){
 
     <br>
 
+    <h2>Always</h2>
     <div style="display:flex;justify-content:center;flex-direction:column;">
       <div style="display:grid;grid-template-columns:30% auto 30%">
         <div>Condition</div>

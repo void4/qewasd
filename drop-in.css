@@ -1,0 +1,373 @@
+/*! drop-in.css v2.1 | MIT License | github.com/webdevjeffus/drop-in-css */
+
+/* drop-in.css v2.0+ is compatible with griddy.css v1.0+ */
+/* griddy.css - a lightweight, responsive 12-column grid system */
+/* github/webdevjeffus/griddy */
+
+/* IMPORT COMMANDS ***************************************************/
+
+/* normalize.css */
+@import url(https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css);
+
+/* Google Fonts - Replace to change fonts in theme */
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,700italic|Alegreya:700);
+
+
+/* RESET STYLES ******************************************************\
+\* Do not edit when customizing themes *******************************/
+
+/* Reset from http://www.paulirish.com/2012/box-sizing-border-box-ftw/ */
+html { box-sizing: border-box; }
+*, *:before, *:after { box-sizing: inherit; }
+
+
+/* Resets from HTML5Boilerplate */
+
+::-moz-selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+::selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid;
+  margin: 1em 0;
+  padding: 0;
+}
+
+audio,
+canvas,
+iframe,
+img,
+svg,
+video { vertical-align: middle; }
+
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+textarea { resize: vertical; }
+
+
+/* Reset: drop-in resets */
+
+body,
+section,
+article,
+aside,
+header,
+main,
+footer,
+nav { padding: 0; }
+
+h1, h2, h3, h4, h5, h6, ol, ul {
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+}
+
+ol, ul { -webkit-padding-start: 0; }
+
+/* END RESETS ********************************************************/
+
+
+/* DROP-IN.CSS UTILITY STYLES ****************************************\
+\* Do not edit when customizing themes *******************************/
+
+body {
+  margin: 0 auto;
+  min-width: 600px;   /* Disable if using with griddy.css */
+  max-width: 800px;   /* Disable if using with griddy.css */
+}
+
+h1 { font-size: 2.25rem; }
+h2 { font-size: 1.75rem; }
+h3 { font-size: 1.4rem; }
+h4 { font-size: 1.2rem; }
+h5 { font-size: 1.2rem; }
+h6 {
+  font-size: 1rem;
+  font-style: italic;
+}
+
+h1, h2, h3, h4, h5, h6, p, label, li, img {
+  margin: 0;
+  padding: 0.6rem 0 0;
+}
+
+p,
+li:last-of-type { margin-bottom: 0.6rem; }
+
+p,
+label { line-height: 1.4; }
+
+ul { list-style: none; }
+ol { padding-left: 1.5em;}
+  /* Use of em instead of rem for left padding is deliberate,
+     so indent will scale with font */
+
+img { width: 100%; }
+
+/* Clearfix - Clears floats at end of section */
+header:after,
+main:after,
+section:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Link styles */
+a,
+header nav input[type="submit"] {
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* Borders */
+body>header nav li,
+body>footer nav li { border-left: 0.125rem solid; }
+
+main section      { border-bottom: 2px solid; }
+main table        { border: 2px solid; }
+main th, main td  { border: 1px solid; }
+main input, main textarea, main button { border: 1px solid; }
+
+/* END UTILITY STYLES ************************************************/
+
+
+/* DESIGN STYLES - DEFAULT THEME *************************************\
+\* EDIT THIS SECTION when customizing drop-in.css themes *************/
+
+/* Fonts */
+
+html { font-family: 'Open Sans', sans-serif; }
+
+h1, h2, h3, h4 { font-family: 'Alegreya', serif; }
+
+/* Colors */
+
+html { background-color: #888; }  /* medium background color, eg: 50% gray */
+
+body,
+body>header nav input[type="submit"] {
+  background-color: #222;    /* dark background color, eg: 85% gray */
+  color: #ddd;              /* light font color, eg: 15% gray */
+}
+
+main {
+  background-color: #ddd;   /* light backround color, eg: 15% gray */
+  color: #222;              /* dark font color, eg: 85% gray */
+}
+
+a:link,
+a:visited,
+body>header nav input[type="submit"] { color: #c00; }
+  /* darker contrasting color; inactive links */
+
+a:hover,
+a:active,
+body>header nav input[type="submit"]:hover,
+body>header nav input[type="submit"]:active { color: #f22; }
+  /* brighter contrasting color; active links */
+
+main table,
+main th,
+main td { border-color: #222; }   /* this should match main font color */
+
+main tr:nth-of-type(odd)  { background-color: #eee; }  /* lighter than main bg-color */
+main tr:nth-of-type(even) { background-color: #ccc; }  /* darker than main bg-color */
+
+hr,
+body>header nav li,
+body>footer nav li,
+main section { border-color: #888; }
+  /* this should match html background-color */
+
+main aside { background-color: #bbb; }
+  /* this should be slightly darker than main background-color, eg: 25% gray */
+
+main input,
+main textarea,
+main button {
+  color: #222;                  /* matches main text color */
+  border-color: #222;           /* matches main text color */
+}
+
+main input[type="submit"],
+main button {
+  background-color: #bbb;       /* matches aside bg-color */
+  color: #222;                  /* matches main text color */
+}
+
+/* END DESIGN STYLES *************************************************/
+
+
+/* HEADER STYLES *****************************************************\
+\* Do not edit when customizing themes *******************************/
+
+body>header { padding: 0.6rem 1.2rem; }
+
+body>header>h1,
+body>header div { float: left; }
+
+body>header h1 {
+  font-size: 4rem;
+  padding-top: 0;
+}
+
+body>header p {
+  font-size: 1.25rem;
+  font-style: italic;
+}
+
+body>header nav { float: right; }
+
+body>header nav ul { padding: 0.6rem 0; }
+
+body>header nav li {
+  display: inline-block;
+  padding: 0 0.875rem 0 1rem;
+}
+
+body>header nav li:first-of-type { border-left: none; }
+body>header nav li:last-of-type { padding-right: 0;}
+
+body>header nav input[type="submit"] {
+  overflow: visible;
+  text-align: center;
+  width: auto;
+  border: none;
+}
+
+/* END HEADER STYLES *************************************************/
+
+
+/* MAIN STYLES *******************************************************\
+\* Do not edit when customizing themes *******************************/
+
+main { padding: 0.6rem 1.2rem; }
+
+main section { padding: 0.6rem 0; }
+
+main section:first-of-type { padding-top: 0; }
+
+main section:last-of-type {
+  padding-bottom: 0;
+  border: none;
+}
+
+main article {
+  width: 65%;
+  float: left;
+}
+
+main aside {
+  width: 30%;
+  float: right;
+  padding: 0.6rem 1.2rem;
+  margin: 0.6rem 0;
+  font-size: 0.8rem;
+}
+
+/* Forms - use of em instead of rem is deliberate in this section */
+
+main label { font-weight: bold; }
+
+main input,
+main textarea {
+  margin: 0.6rem 0;
+  display: block;
+  width: 100%;
+  padding: 0.3em 0.6em;
+}
+
+main textarea { height: 4.5em; }
+
+main input[type="checkbox"],
+main input[type="radio"] {
+  display: inline;
+  width: 1em;
+  margin-left: 1.2em;
+}
+
+main input[type="range"] {
+  display: inline;
+  width: 16em;
+  margin-left: 1.2em;
+}
+
+main button,
+main input[type="submit"] {
+  margin: 0.6rem auto;
+  padding: 0.3em 0.6em;
+  width: 12rem;
+}
+
+/* Tables */
+
+main table {
+  width: 100%;
+  margin: 0.6rem 0;
+  border-collapse: collapse;
+}
+
+main th,
+main td {
+  padding: 0.3em 0;   /* em used deliberately */
+  text-align: center;
+}
+
+/* END MAIN STYLES ***************************************************/
+
+
+/* FOOTER STYLES *****************************************************\
+\* Do not edit when customizing themes *******************************/
+
+body>footer {
+  text-align: center;
+  font-size: 0.8rem;
+  padding: 1rem;
+}
+
+body>footer nav ul {
+  list-style: none;
+  padding: 0.6rem 0;
+}
+
+body>footer nav li {
+  display: inline-block;
+  padding: 0 0.875rem 0 1rem;
+}
+
+body>footer nav li:first-of-type { border-left: none; }
+
+body>footer nav input[type="submit"] {
+  overflow: visible;
+  text-align: center;
+  width: auto;
+  border: none;
+}
+
+/* END FOOTER STYLES *************************************************/
+
+
+/* BROWSER UPGRADE WARNING STYLES from HTML5 Boilerplate *************\
+\* Do not edit when customizing themes *******************************/
+
+.browserupgrade {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+/* END BROWSER UPGRADE WARNING STYLES ********************************/
