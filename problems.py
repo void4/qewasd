@@ -4,7 +4,7 @@ problems = [
 {
 	"name": "Clickediclick",
 
-	"steps": 25,
+	"steps": 15,
 
 	"oneof" : [
 		#["do nothing", [],[]],
@@ -62,7 +62,7 @@ problems = [
 },
 
 {
-	"name": "Asymmetric Ships and Factories and Banks",
+	"name": "Asymmetric Complex",
 
 	"steps": 50,
 
@@ -73,14 +73,17 @@ problems = [
 		["sell ship", [["atleast", "ship",1],],[["add", "money", 5], ["add", "ship", -1]]],
 		["buy factory", [["atleast", "money",20],], [["add", "money", -20], ["add", "factory", 1]]],
 		["sell factory", [["atleast", "factory",1],],[["add", "money", 10], ["add", "factory", -1]]],
-		["buy bank", [["atleast", "money",35],], [["add", "money", -35], ["add", "bank", 1]]],
-		["sell bank", [["atleast", "factory",1],],[["add", "money", 15], ["add", "bank", -1]]],
+		["buy workshop", [["atleast", "money",35],], [["add", "money", -35], ["add", "workshop", 1]]],
+		["sell workshop", [["atleast", "workshop",1],],[["add", "money", 15], ["add", "workshop", -1]]],
+		["buy bank", [["atleast", "money",60],], [["add", "money", -60], ["add", "bank", 1]]],
+		["sell bank", [["atleast", "factory",1],],[["add", "money", 30], ["add", "bank", -1]]],
 	],
 
 	"always" : [
 		["ship income", [], [["addMultiply", "money", "ship", 3],]],
 		["factory income", [], [["addMultiply", "money", "factory", 5],]],
-		["bank income", [], [["addMultiply", "money", "factory", 9],]],
+		["workshop income", [], [["addMultiply", "money", "workshop", 9],]],
+		["bank income", [], [["addMultiply", "money", "bank", 15],]],
 	],
 
 	"score": ["get", "money"]
