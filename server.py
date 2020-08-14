@@ -87,6 +87,6 @@ if __name__ == '__main__':
     for line in lines:
         line = json.loads(line)
         problemkey = json.dumps(line[0])
-        records[problemkey].append([line[1], line[2]]])
+        records[problemkey].append([line[1], line[2]])
 
     socketio.run(app)
