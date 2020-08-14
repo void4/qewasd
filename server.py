@@ -4,7 +4,7 @@ import json
 from flask import Flask, render_template, session
 from flask_socketio import SocketIO, send, emit
 
-from main import sproblem, problem
+from problems import problems
 from simulation import single_step
 from functions import convert
 
@@ -19,13 +19,7 @@ def sendj(typ, j):
 @socketio.on('connect')
 def handle_connect():
     print('connected')
-    session["sproblem"] = sproblem
-    session["problem"] = convert(session["sproblem"])
-    session["env"] = {}
-    session["history"] = []
-    sendj("problem", session["sproblem"])
-    sendj("env", session["env"])
-    sendj("history", session["history"])
+    sendj("problems", problems)
 
 @socketio.on('message')
 def handle_message(message):
@@ -37,11 +31,20 @@ records = defaultdict(list)
 @socketio.on('json')
 def handle_json(j):
     print('received json: ' + str(j))
-    if j["type"] == "decision":
-        session["env"], session["history"] = single_step(problem, session["env"], session["history"], j["data"])
+    if j["type"] == "problem":
+        session["sproblem"] = problems[j["data"]]
+        session["problem"] = convert(session["sproblem"])
+        session["env"] = {}
+        session["history"] = []
+        sendj("problem", session["sproblem"])
         sendj("env", session["env"])
         sendj("history", session["history"])
-        if session["env"]["step"] == problem["steps"]:
+
+    elif j["type"] == "decision":
+        session["env"], session["history"] = single_step(session["problem"], session["env"], session["history"], j["data"])
+        sendj("env", session["env"])
+        sendj("history", session["history"])
+        if session["env"]["step"] == session["problem"]["steps"]:
             problemkey = json.dumps(session["sproblem"])
             records[problemkey].append([session["env"], session["history"]])
 

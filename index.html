@@ -21,7 +21,10 @@ socket.on('json', function(message){
   console.log(message)
   var type = message["type"]
   var data = message["data"]
-  if (type == "problem") {
+  if (type == "problems") {
+    app.problems = data;
+  } else if (type == "problem") {
+    app.problems = [];
     app.problem = data;
   } else if (type == "env") {
     app.env = data;
@@ -53,6 +56,15 @@ socket.on('disconnect', function(){
 <body>
 
 <div id="app">
+
+
+  <div v-if="problems">
+    <h2>Problems</h2>
+    <div v-for="(p,index) in problems">
+      <button v-on:click="choose_problem(index)">{{p}}</button>
+    </div>
+  </div>
+
 
   <h3>Score: {{score}}</h3>
   <h4>Step: {{step}}/{{problem.steps}}</h4><br><br>
@@ -105,6 +117,7 @@ socket.on('disconnect', function(){
 var app = new Vue({
   el: '#app',
   data: {
+    problems: [],
     problem: {},
     env: {},
     history: [],
@@ -115,6 +128,9 @@ var app = new Vue({
   methods: {
     decide(name) {
       socket.emit("json", {"type":"decision", "data":name})
+    },
+    choose_problem(index) {
+      socket.emit("json", {"type":"problem", "data":index})
     }
   }
 })
