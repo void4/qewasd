@@ -70,15 +70,7 @@ socket.on('disconnect', function(){
   <div v-if="problem">
     <h1>Score: {{score}}</h1>
     {{ problem.score }}
-    <h4>Step: {{step}}/{{problem.steps}}</h4><br><br>
-
-    <div v-if="env">
-      <h2>World</h2>
-      <div v-for="(value, key) in env">
-        {{key}}: {{value}}
-      </div>
-    </div>
-
+    <h4>Step: {{step}}/{{problem.steps}}</h4><br>
 
     <!--
     <button id="autostep">Autostep</button>
@@ -116,6 +108,14 @@ socket.on('disconnect', function(){
       </div>
     </div>
 
+    <div v-if="env">
+      <h2>World</h2>
+      <div v-for="(value, key) in env">
+        {{key}}: {{value}}
+      </div>
+    </div>
+
+
     <br>
 
     <div v-if="history">
@@ -124,6 +124,7 @@ socket.on('disconnect', function(){
   </div>
 
   <div v-if="records">
+    <h2>Ranking</h2>
     <div v-for="record in records">
       {{record[0]}}: {{record[1]}}
     </div>
