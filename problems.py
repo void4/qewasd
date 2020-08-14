@@ -64,7 +64,7 @@ problems = [
 {
 	"name": "Asymmetric Ships and Factories and Banks",
 
-	"steps": 25,
+	"steps": 50,
 
 	"oneof" : [
 		#["do nothing", [],[]],
