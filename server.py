@@ -55,5 +55,8 @@ def handle_json(j):
 
             sendj("records", sorted(c.items(), key=lambda item:item[0], reverse=True))
 
+    elif j["type"] == "continue":
+        sendj("problems", problems)
+
 if __name__ == '__main__':
     socketio.run(app)

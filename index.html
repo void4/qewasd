@@ -23,8 +23,9 @@ socket.on('json', function(message){
   var data = message["data"]
   if (type == "problems") {
     app.problems = data;
+    app.records = null;
   } else if (type == "problem") {
-    app.problems = [];
+    app.problems = null;
     app.problem = data;
   } else if (type == "env") {
     app.env = data;
@@ -35,7 +36,7 @@ socket.on('json', function(message){
   } else if (type == "history") {
     app.history = data;
   } else if (type == "records") {
-    app.problem = {};
+    app.problem = null;
     app.env = {};
     app.history = [];
     app.records = data;
@@ -65,14 +66,57 @@ socket.on('disconnect', function(){
     </div>
   </div>
 
+  <div v-if="problem">
+    <h3>Score: {{score}}</h3>
+    <h4>Step: {{step}}/{{problem.steps}}</h4><br><br>
 
-  <h3>Score: {{score}}</h3>
-  <h4>Step: {{step}}/{{problem.steps}}</h4><br><br>
+    <div v-if="env">
+      <h2>Scores</h2>
+      <div v-for="(value, key) in env">
+        {{key}}: {{value}}
+      </div>
+    </div>
 
-  <div v-if="env">
-    <h2>Scores</h2>
-    <div v-for="(value, key) in env">
-      {{key}}: {{value}}
+
+
+    <!--
+    <button id="autostep">Autostep</button>
+    <input id="autostepspeed" type="text" value="1"></input>
+    <button id="step">Step</button>
+  -->
+
+    <div style="display:flex;justify-content:center;flex-direction:column;">
+      <div style="display:grid;grid-template-columns:30% auto 30%">
+        <div>Condition</div>
+        <div>Action</div>
+        <div>Effect</div>
+      </div>
+      <div v-for="decision in problem.oneof" style="display:grid;grid-template-columns:30% auto 30%">
+        {{decision[1]}}
+        <button v-on:click="decide(decision[0])">{{decision[0]}}</button>
+        {{decision[2]}}
+      </div>
+    </div>
+
+    <br>
+
+    <div style="display:flex;justify-content:center;flex-direction:column;">
+      <div style="display:grid;grid-template-columns:30% auto 30%">
+        <div>Condition</div>
+        <div>Action</div>
+        <div>Effect</div>
+      </div>
+      <div v-for="decision in problem.always" style="display:grid;grid-template-columns:30% auto 30%">
+        <div>{{decision[1]}}</div>
+        <div>{{decision[0]}}</div>
+        <div>{{decision[2]}}</div>
+      </div>
+    </div>
+
+    <br>
+
+    <div v-if="history">
+      {{ history }}
     </div>
   </div>
 
@@ -80,36 +124,7 @@ socket.on('disconnect', function(){
     <div v-for="record in records">
       {{record[0]}}: {{record[1]}}
     </div>
-  </div>
-
-  <!--
-  <button id="autostep">Autostep</button>
-  <input id="autostepspeed" type="text" value="1"></input>
-  <button id="step">Step</button>
--->
-
-  <div style="display:flex;justify-content:center;flex-direction:column;">
-    <div v-for="decision in problem.oneof" style="display:grid;grid-template-columns:30% auto 30%">
-      {{decision[1]}}
-      <button v-on:click="decide(decision[0])">{{decision[0]}}</button>
-      {{decision[2]}}
-    </div>
-  </div>
-
-  <br>
-
-  <div style="display:flex;justify-content:center;flex-direction:column;">
-    <div v-for="decision in problem.always" style="display:grid;grid-template-columns:30% auto 30%">
-      <div>{{decision[1]}}</div>
-      <div>{{decision[0]}}</div>
-      <div>{{decision[2]}}</div>
-    </div>
-  </div>
-
-  <br>
-
-  <div v-if="history">
-    {{ history }}
+    <button v-on:click="choose_continue()">Continue</button>
   </div>
 </div>
 
@@ -117,13 +132,13 @@ socket.on('disconnect', function(){
 var app = new Vue({
   el: '#app',
   data: {
-    problems: [],
-    problem: {},
+    problems: null,
+    problem: null,
     env: {},
     history: [],
     step: 0,
     score: 0,
-    records: [],
+    records: null,
   },
   methods: {
     decide(name) {
@@ -131,6 +146,9 @@ var app = new Vue({
     },
     choose_problem(index) {
       socket.emit("json", {"type":"problem", "data":index})
+    },
+    choose_continue(index) {
+      socket.emit("json", {"type":"continue", "data":null})
     }
   }
 })

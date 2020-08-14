@@ -4,7 +4,7 @@ problems = [
 	"steps": 25,
 
 	"oneof" : [
-		["do nothing", [],[]],
+		#["do nothing", [],[]],
 		["manual click", [],[["add", "money",1],]],
 		["buy ship", [["atleast", "money",10],], [["add", "money", -10], ["add", "ship", 1]]],
 		["sell ship", [["atleast", "ship",1],],[["add", "money", 5], ["add", "ship", -1]]],
