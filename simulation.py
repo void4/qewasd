@@ -12,11 +12,6 @@ def single_step(problem, env, history, decisionfunc):
 	env["step"] = env.get("step", 0) + 1
 	step = env["step"]
 
-	for thing in problem["always"]:
-		if all([condition(env) for condition in thing[1]]):
-			for effect in thing[2]:
-				effect(env)
-
 	if callable(decisionfunc):
 		decisionindex = decisionfunc(problem, env, history, step)
 	elif isinstance(decisionfunc, int):
@@ -37,6 +32,11 @@ def single_step(problem, env, history, decisionfunc):
 	if all([condition(env) for condition in decision[1]]):
 		for effect in decision[2]:
 			effect(env)
+
+	for thing in problem["always"]:
+		if all([condition(env) for condition in thing[1]]):
+			for effect in thing[2]:
+				effect(env)
 
 	env["score"] = problem["score"](env)
 
