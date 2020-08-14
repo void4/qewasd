@@ -53,7 +53,7 @@ problems = [
 	"steps": 25,
 
 	"start": {
-		"money": 5,
+		"money": 0,
 	},
 
 	"oneof" : [
@@ -77,6 +77,10 @@ problems = [
 	"name": "Asymmetric Complex",
 
 	"steps": 50,
+
+	"start": {
+		"money": 5,
+	},
 
 	"oneof" : [
 		#["do nothing", [],[]],

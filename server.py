@@ -36,7 +36,7 @@ def handle_json(j):
     if j["type"] == "problem":
         session["sproblem"] = problems[j["data"]]
         session["problem"] = convert(session["sproblem"])
-        session["env"] = deepcopy(session["problem"]["start"])
+        session["env"] = deepcopy(session["problem"].get("start", {}))
         session["env"]["step"] = 0
         session["history"] = []
         sendj("problem", session["sproblem"])
