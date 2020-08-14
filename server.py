@@ -84,12 +84,12 @@ if __name__ == '__main__':
     try:
         with open("records.txt") as recordfile:
             lines = recordfile.read().splitlines()
+
+            for line in lines:
+                line = json.loads(line)
+                problemkey = json.dumps(line[0])
+                records[problemkey].append([line[1], line[2]])
     except FileNotFoundError:
         pass
-
-    for line in lines:
-        line = json.loads(line)
-        problemkey = json.dumps(line[0])
-        records[problemkey].append([line[1], line[2]])
 
     socketio.run(app)
