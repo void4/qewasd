@@ -13,7 +13,7 @@
 <script type="text/javascript" src="js/socket.io.js"></script>
 <script type="text/javascript" src="js/vue.js"></script>
 <script>
-var socket = io();
+var socket = io(":5000");
 
 socket.on('connect', function(){
 
@@ -47,6 +47,8 @@ socket.on('json', function(message){
     app.history = [];
     app.records = data.records;
     app.recordsindex = data.index;
+  } else if (type == "options") {
+    app.options = data;
   }
 });
 
@@ -99,9 +101,9 @@ socket.on('disconnect', function(){
         <div>Action</div>
         <div>Effect</div>
       </div>
-      <div v-for="decision in problem.oneof" style="display:grid;grid-template-columns:30% auto 30%">
+      <div v-for="(decision, index) in problem.oneof" style="display:grid;grid-template-columns:30% auto 30%">
         {{decision[1]}}
-        <button v-on:click="decide(decision[0])">{{decision[0]}}</button>
+        <button v-on:click="decide(decision[0])" :disabled="!options[index]">{{decision[0]}}</button>
         {{decision[2]}}
       </div>
     </div>
@@ -146,6 +148,7 @@ var app = new Vue({
   data: {
     problems: null,
     problem: null,
+    options: null,
     env: {},
     history: [],
     step: 0,

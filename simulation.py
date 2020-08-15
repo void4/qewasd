@@ -6,7 +6,11 @@ from time import sleep
 
 from io_utils import NonBlockingInput
 
-# Todo: run single step, recalculate score at every step into env
+def check_options(problem, env):
+    options = []
+    for index, thing in enumerate(problem["oneof"]):
+        options.append(all([condition(env) for condition in thing[1]]))
+    return options
 
 def single_step(problem, env, history, decisionfunc):
 	env["step"] = env.get("step", 0) + 1

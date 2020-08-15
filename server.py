@@ -6,7 +6,7 @@ from flask import Flask, render_template, session
 from flask_socketio import SocketIO, send, emit
 
 from problems import problems
-from simulation import single_step
+from simulation import single_step, check_options
 from functions import convert
 
 app = Flask(__name__)
@@ -40,6 +40,8 @@ def handle_json(j):
         session["env"]["step"] = 0
         session["history"] = []
         sendj("problem", session["sproblem"])
+        options = check_options(session["problem"], session["env"])
+        sendj("options", options)
         sendj("env", session["env"])
         sendj("history", session["history"])
 
@@ -73,6 +75,10 @@ def handle_json(j):
             session["env"] = None
             sendj("records", {"records":sortedrecords, "index":index})
         else:
+
+            # TODO: Send all simultaneously?
+            options = check_options(session["problem"], session["env"])
+            sendj("options", options)
             sendj("env", session["env"])
             sendj("history", session["history"])
 
