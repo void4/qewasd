@@ -7,6 +7,19 @@ def atleast(key, value):
 		return env[key] >= value
 	return eval
 
+def equal(key, value):
+	def eval(env):
+		if key not in env:
+			return value == 0
+		return env[key] == value
+	return eval
+
+def setkey(key, value):
+	def eval(env):
+		env[key] = value
+
+	return eval
+
 def add(key, value):
 	def eval(env):
 		if key in env:
@@ -39,6 +52,8 @@ functions = {
 	"add": add,
 	"addMultiply": addMultiply,
 	"get": get,
+	"equal": equal,
+	"setkey": setkey,
 }
 
 def convert_function(f):
@@ -57,6 +72,7 @@ def convert(sproblem):
 	problem = deepcopy(sproblem)
 	for triple in problem["oneof"]:
 		for i, condition in enumerate(triple[1]):
+			print(i, condition)
 			element_replace(triple[1], i, condition)
 		for i, effect in enumerate(triple[2]):
 			element_replace(triple[2], i, effect)
