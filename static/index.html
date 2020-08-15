@@ -21,7 +21,16 @@
 }
 
 * {
+  -ms-touch-action: manipulation;
   touch-action: manipulation;
+}
+
+@media only screen and (max-width: 600px) {
+ body {
+   min-width:100%;
+   margin:0;
+   padding:0;
+ }
 }
 
 </style>
