@@ -93,7 +93,7 @@ function startTutorial() {
 
     <h1 data-step="1" data-intro="This is what its all about, increasing the score!">Score: {{score}}</h1>
     {{ problem.score }}
-    <h4>Step: {{step}}/{{problem.steps}}</h4><br>
+    <h4 data-step="2" data-intro="Each challenge only has a limited number of steps, after that, it is over and the result will be shown on the scoreboard.">Step: {{step}}/{{problem.steps}}</h4><br>
 
     <!--
     <button id="autostep">Autostep</button>
@@ -102,14 +102,14 @@ function startTutorial() {
   -->
 
 
-    <div v-if="env" data-step="2" data-intro="This is your inventory">
+    <div v-if="env" data-step="3" data-intro="This is your inventory">
       <h2>World</h2>
       <div v-for="(value, key) in env">
         {{key}}: {{value}}
       </div>
     </div>
 
-    <div style="display:flex;justify-content:center;flex-direction:column;" data-step="3" data-intro="These are the decisions you can make">
+    <div style="display:flex;justify-content:center;flex-direction:column;" data-step="4" data-intro="These are the decisions you can make. You can only make one per step. The conditions for being able to make a decision are on the left, its effects on the right.">
       <h2>One of</h2>
       <div style="display:grid;grid-template-columns:30% auto 30%">
         <div>Condition</div>
@@ -125,7 +125,7 @@ function startTutorial() {
 
     <br>
 
-    <div style="display:flex;justify-content:center;flex-direction:column;" data-step="4" data-intro="These things are always all executed after a decision">
+    <div style="display:flex;justify-content:center;flex-direction:column;" data-step="5" data-intro="These things are always executed after a decision">
       <h2>Always</h2>
       <div style="display:grid;grid-template-columns:30% auto 30%">
         <div>Condition</div>
