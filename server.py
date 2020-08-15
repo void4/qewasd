@@ -9,6 +9,8 @@ from problems import problems
 from simulation import single_step, check_options
 from functions import convert
 
+RECORDFILE = "records.txt"
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app, cors_allowed_origins="*")
@@ -55,7 +57,7 @@ def handle_json(j):
 
         if session["env"]["step"] == session["problem"]["steps"]:
 
-            with open("records.txt", "w") as recordfile:
+            with open(RECORDFILE, "a") as recordfile:
                 recordfile.write(json.dumps([session["sproblem"], session["env"], session["history"]])+"\n")
 
             problemkey = json.dumps(session["sproblem"])
@@ -87,7 +89,7 @@ def handle_json(j):
 if __name__ == '__main__':
 
     try:
-        with open("records.txt") as recordfile:
+        with open(RECORDFILE) as recordfile:
             lines = recordfile.read().splitlines()
 
             for line in lines:
@@ -95,6 +97,7 @@ if __name__ == '__main__':
                 problemkey = json.dumps(line[0])
                 records[problemkey].append([line[1], line[2]])
     except FileNotFoundError:
-        pass
+        with open(RECORDFILE, "w+") as recordfile:
+            pass
 
     socketio.run(app)#, host="0.0.0.0")
