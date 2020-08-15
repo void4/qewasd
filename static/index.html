@@ -24,7 +24,8 @@
 <script type="text/javascript" src="js/socket.io.js"></script>
 <script type="text/javascript" src="js/vue.js"></script>
 <script>
-var socket = io();//":5000"
+var socket = io(":5000");
+//var socket = io();
 
 socket.on('connect', function(){
 
@@ -50,12 +51,9 @@ socket.on('json', function(message){
     app.step = data.step;
     delete app.env.score;
     delete app.env.step;
-  } else if (type == "history") {
-    app.history = data;
   } else if (type == "records") {
     app.problem = null;
     app.env = {};
-    app.history = [];
     app.records = data.records;
     app.recordsindex = data.index;
   } else if (type == "options") {
@@ -141,11 +139,7 @@ function startTutorial() {
       </div>
     </div>
 
-    <br>
-
-    <div v-if="history">
-      {{ history }}
-    </div>
+    <br><br>
     <button onclick="javascript:startTutorial();">Tutorial</button>
   </div>
 
@@ -168,7 +162,6 @@ var app = new Vue({
     problem: null,
     options: null,
     env: {},
-    history: [],
     step: 0,
     score: 0,
     records: null,

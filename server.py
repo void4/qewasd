@@ -44,7 +44,6 @@ def handle_json(j):
         options = check_options(session["problem"], session["env"])
         sendj("options", options)
         sendj("env", session["env"])
-        sendj("history", session["history"])
 
     elif j["type"] == "decision":
 
@@ -81,7 +80,6 @@ def handle_json(j):
             options = check_options(session["problem"], session["env"])
             sendj("options", options)
             sendj("env", session["env"])
-            sendj("history", session["history"])
 
     elif j["type"] == "continue":
         sendj("problems", problems)
