@@ -103,18 +103,40 @@ function startTutorial() {
   intro.start();
 }
 
+
 </script>
 </head>
 <body>
 
 <div id="app">
 
+  <div v-if="info">
+    A problem statement looks like this:
+
+    <ul>
+      <li>'name' is the name of the challenge</li>
+      <li>'start' defines the starting environment</li>
+      <li>'oneof' lists all decisions, where each decision consists of (1) its name, (2) a list of conditions (3) a list of effects</li>
+      <li>'always' lists all actions that are evaluated every step after the decision, they too can have conditions</li>
+      <li>'score' shows how the score is calculated, in most cases it's equivalent to the money in the inventory, but it doesn't have to be</li>
+    </ul>
+
+    <pre>{{infotext}}</pre>
+
+    When you are done, send me an email at <a href="mailto:challenge@qewasd.com">challenge@qewasd.com</a>!
+    <br>
+    <button v-on:click="choose_continue()">Go back</button>
+  </div>
 
   <div v-if="problems">
     <h2>Challenges</h2>
     <div v-for="(p,index) in problems">
       <button v-on:click="choose_problem(index)">{{p.name}}</button>
     </div>
+
+    <br>
+    <br>
+    <button v-on:click="submit_challenge()">Submit your own challenge</button>
   </div>
 
   <div v-if="problem">
@@ -183,6 +205,32 @@ function startTutorial() {
 </div>
 
 <script>
+
+var infotext = `{
+  "name": "Asymmetric Ships and Factories",
+
+  "steps": 25,
+
+  "start": {
+    "money": 0,
+  },
+
+  "oneof" : [
+    ["manual click", [],[["add", "money",1],]],
+    ["buy ship", [["atleast", "money",10],], [["add", "money", -10], ["add", "ship", 1]]],
+    ["sell ship", [["atleast", "ship",1],],[["add", "money", 5], ["add", "ship", -1]]],
+    ["buy factory", [["atleast", "money",20],], [["add", "money", -20], ["add", "factory", 1]]],
+    ["sell factory", [["atleast", "factory",1],],[["add", "money", 10], ["add", "factory", -1]]],
+  ],
+
+  "always" : [
+    ["ship income", [], [["addMultiply", "money", "ship", 3],]],
+    ["factory income", [], [["addMultiply", "money", "factory", 5],]],
+  ],
+
+  "score": ["get", "money"]
+}`
+
 var app = new Vue({
   el: '#app',
   data: {
@@ -194,6 +242,8 @@ var app = new Vue({
     score: 0,
     records: null,
     recordsindex: null,
+    info: null,
+    infotext: infotext,
   },
   methods: {
     decide(name) {
@@ -203,7 +253,12 @@ var app = new Vue({
       socket.emit("json", {"type":"problem", "data":index})
     },
     choose_continue(index) {
+      app.info = null;
       socket.emit("json", {"type":"continue", "data":null})
+    },
+    submit_challenge() {
+      app.problems = null;
+      app.info = true;
     }
   }
 })
