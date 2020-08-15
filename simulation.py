@@ -3,14 +3,15 @@ import json
 import base64
 import zlib
 from time import sleep
+from copy import deepcopy
 
 from io_utils import NonBlockingInput
 
 def check_options(problem, env):
-    options = []
-    for index, thing in enumerate(problem["oneof"]):
-        options.append(all([condition(env) for condition in thing[1]]))
-    return options
+	options = []
+	for index, thing in enumerate(problem["oneof"]):
+		options.append(all([condition(env) for condition in thing[1]]))
+	return options
 
 def single_step(problem, env, history, decisionfunc):
 	env["step"] = env.get("step", 0) + 1
@@ -106,17 +107,18 @@ def playergame(problem, step):
 	env, history = run(problem, decisionfunc=decisionfunc)
 
 def replay(problem, truehistory):
-	def df_history(problem, env, history, step):
-		"""
-		for pair in truehistory:
-			if pair[0] == step:
-				return pair[1]
-		"""
-		return truehistory[step]
-	return run(problem, decisionfunc=df_history)
+
+	env = deepcopy(problem.get("start", {}))
+	history = []
+
+	for decisionindex in truehistory:
+		env, history = single_step(problem, env, history, decisionindex)
+
+	return env, history
 
 def df_rand(problem, env, history, step):
-	return randint(0, len(problem["oneof"])-1)
+	options = check_options(problem, env)
+	return choice([index for index, value in enumerate(options) if value])
 
 def simgame(problem, sims=1000):
 
@@ -135,8 +137,8 @@ def simgame(problem, sims=1000):
 
 	print("Replaying record...")
 	r_env, r_history = replay(problem, recordhistory)
-	print(r_env)
-	print(r_history)
+	print("Replay env", r_env)
+	print("Replay history", r_history)
 	return r_env, r_history
 
 def decompress(history):
