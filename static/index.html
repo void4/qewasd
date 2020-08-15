@@ -5,15 +5,26 @@
 <link rel="icon" href="data:;base64,=">
 <title>Clicker</title>
 <link rel="stylesheet" href="css/drop-in.css">
+<link rel="stylesheet" href="css/introjs.css">
 <style>
 .highlight {
   background-color: green;
 }
+
+.introjs-tooltip {
+  color: black;
+}
+
+.introjs-helperLayer {
+  color: black;
+  background-color: rgba(255,255,255,.5);
+}
+
 </style>
 <script type="text/javascript" src="js/socket.io.js"></script>
 <script type="text/javascript" src="js/vue.js"></script>
 <script>
-var socket = io();
+var socket = io(":5000");
 
 socket.on('connect', function(){
 
@@ -60,6 +71,11 @@ socket.on('disconnect', function(){
 
 });
 
+function startTutorial() {
+  var intro = introJs();
+  intro.setOption("overlayOpacity", 0.5);
+  intro.start();
+}
 
 </script>
 </head>
@@ -76,7 +92,8 @@ socket.on('disconnect', function(){
   </div>
 
   <div v-if="problem">
-    <h1>Score: {{score}}</h1>
+
+    <h1 data-step="1" data-intro="This is what its all about, increasing the score!">Score: {{score}}</h1>
     {{ problem.score }}
     <h4>Step: {{step}}/{{problem.steps}}</h4><br>
 
@@ -87,15 +104,15 @@ socket.on('disconnect', function(){
   -->
 
 
-    <div v-if="env">
+    <div v-if="env" data-step="2" data-intro="This is your inventory">
       <h2>World</h2>
       <div v-for="(value, key) in env">
         {{key}}: {{value}}
       </div>
     </div>
 
-    <h2>One of</h2>
-    <div style="display:flex;justify-content:center;flex-direction:column;">
+    <div style="display:flex;justify-content:center;flex-direction:column;" data-step="3" data-intro="These are the decisions you can make">
+      <h2>One of</h2>
       <div style="display:grid;grid-template-columns:30% auto 30%">
         <div>Condition</div>
         <div>Action</div>
@@ -110,8 +127,8 @@ socket.on('disconnect', function(){
 
     <br>
 
-    <h2>Always</h2>
-    <div style="display:flex;justify-content:center;flex-direction:column;">
+    <div style="display:flex;justify-content:center;flex-direction:column;" data-step="4" data-intro="These things are always all executed after a decision">
+      <h2>Always</h2>
       <div style="display:grid;grid-template-columns:30% auto 30%">
         <div>Condition</div>
         <div>Action</div>
@@ -129,6 +146,7 @@ socket.on('disconnect', function(){
     <div v-if="history">
       {{ history }}
     </div>
+    <button onclick="javascript:startTutorial();">Tutorial</button>
   </div>
 
   <div v-if="records">
@@ -169,5 +187,6 @@ var app = new Vue({
   }
 })
 </script>
+<script type="text/javascript" src="js/intro.js"></script>
 </body>
 </html>

@@ -38,6 +38,7 @@ def handle_json(j):
         session["problem"] = convert(session["sproblem"])
         session["env"] = deepcopy(session["problem"].get("start", {}))
         session["env"]["step"] = 0
+        session["env"]["score"] = session["problem"]["score"](session["env"])
         session["history"] = []
         sendj("problem", session["sproblem"])
         options = check_options(session["problem"], session["env"])
