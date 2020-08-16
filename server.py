@@ -103,13 +103,16 @@ except FileNotFoundError:
 from time import time
 
 tstart = time()
+totalgames = 0
 totalclicks = 0
 for problemkey, lst in records.items():
     for eh in lst:
+        totalgames += 1
         totalclicks += len(eh[1])
 
 print(time()-tstart)
 
+print(totalgames, "total games")
 print(totalclicks, "total clicks")
 
 if __name__ == '__main__':
