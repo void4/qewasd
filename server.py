@@ -105,7 +105,6 @@ from time import time
 tstart = time()
 totalclicks = 0
 for problemkey, lst in records.items():
-    print(lst)
     for eh in lst:
         totalclicks += len(eh[1])
 
