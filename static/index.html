@@ -57,8 +57,7 @@ ga('send', 'pageview');
 <script type="text/javascript" src="js/socket.io.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script>
-//var socket = io(":5000");
-var socket = io();
+var socket = 1 ? io() : io(":5000");
 
 socket.on('connect', function(){
 
@@ -91,6 +90,8 @@ socket.on('json', function(message){
     app.recordsindex = data.index;
   } else if (type == "options") {
     app.options = data;
+  } else if (type == "stats") {
+    app.stats = data;
   }
 });
 
@@ -147,7 +148,9 @@ function startTutorial() {
 
     <br>
     <br>
-    <button v-on:click="submit_challenge()" style="font-size:12px;color:grey;background-color:rgba(50,50,50,0.2);">Submit your own challenge</button>
+    <button v-on:click="submit_challenge()" style="font-size:12px;color:white;background-color:rgba(50,50,50,0.2);">Submit your own challenge</button>
+    <br>
+    <p style="font-size:12px;">{{stats.totalgames}} total games played - {{stats.totalclicks}} total clicks</p>
   </div>
 
   <div v-if="problem">
@@ -255,6 +258,7 @@ var app = new Vue({
     recordsindex: null,
     info: null,
     infotext: infotext,
+    stats: null,
     difficulties: {
       "easy": "rgba(20,150,10,0.2)",
       "medium": "rgba(150,150,10,0.2)",

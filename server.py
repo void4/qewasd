@@ -24,6 +24,11 @@ def sendj(typ, j):
 def handle_connect():
     print('connected')
     sendj("problems", problems)
+    sendj("stats", stats())
+
+def stats():
+    global totalgames, totalclicks
+    return {"totalgames":totalgames, "totalclicks":totalclicks}
 
 @socketio.on('message')
 def handle_message(message):
@@ -34,7 +39,7 @@ records = defaultdict(list)
 
 @socketio.on('json')
 def handle_json(j):
-    global records
+    global records, totalgames, totalclicks
     print('received json: ' + str(j))
     if j["type"] == "problem":
         session["sproblem"] = problems[j["data"]]
@@ -61,6 +66,9 @@ def handle_json(j):
             with open(RECORDFILE, "a") as recordfile:
                 recordfile.write(json.dumps([session["sproblem"], session["env"], session["history"]])+"\n")
 
+            totalgames += 1
+            totalclicks += session["problem"]["steps"]
+
             problemkey = get_problemkey(session["sproblem"])
             records[problemkey].append([session["env"], session["history"]])
 
@@ -86,6 +94,7 @@ def handle_json(j):
 
     elif j["type"] == "continue":
         sendj("problems", problems)
+        sendj("stats", stats())
 
 
 try:
