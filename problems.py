@@ -246,4 +246,35 @@ problems = [
 
 	"score": ["get", "money"]
 },
+
+{
+	"name": "The A's and the B's",
+
+	"difficulty": "medium",
+
+	"steps": 25,
+
+	"start": {
+		"A": 0,
+		"B": 0,
+		"clickincome": 1,
+		"l1cost": 5,
+		"l2cost": 7,
+		"l3cost": 11
+	},
+
+	"oneof" : [
+		#["do nothing", [],[]],
+		["click A", [],[["addMultiply", "A","clickincome",1],]],
+		["click B", [],[["addMultiply", "B","clickincome",1],]],
+		["buy level 1 boost", [["atleastkey", "A","l1cost"],], [["addMultiply", "A", "l1cost", -1], ["add", "clickincome", 1]]],
+		["buy level 2 boost", [["atleastkey", "B","l2cost"],], [["addMultiply", "B", "l2cost", -1], ["add", "clickincome", 3]]],
+		["buy level 3 boost", [["atleastkey", "A","l3cost"],["atleastkey", "B","l3cost"],], [["addMultiply", "A", "l3cost", -1], ["addMultiply", "B", "l3cost", -1], ["add", "clickincome", 5]]],
+	],
+
+	"always" : [
+	],
+
+	"score": ["multiply", "A", "B"]
+},
 ]

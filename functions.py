@@ -37,6 +37,12 @@ def add(key, value):
 
 	return eval
 
+def multiply(key1, key2):
+	def eval(env):
+		return env.get(key1, 0) * env.get(key2, 0)
+
+	return eval
+
 def addMultiply(key,key2,multiplier):
 	def eval(env):
 		if key2 not in env:
@@ -63,6 +69,7 @@ functions = {
 	"get": get,
 	"equal": equal,
 	"setkey": setkey,
+	"multiply": multiply,
 }
 
 def convert_function(f):
