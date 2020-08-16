@@ -133,8 +133,8 @@ function startTutorial() {
 
   <div v-if="problems">
     <h2>Challenges</h2>
-    <div v-for="difficulty in difficulties">
-      <h4>{{difficulty}}</h4>
+    <div v-for="(color, difficulty) in difficulties" :style="{'background-color': color}">
+      <!--<h4>{{difficulty}}</h4>-->
       <div v-for="(p,index) in problems">
         <button v-if="p.difficulty == difficulty" v-on:click="choose_problem(index)">{{p.name}}</button>
       </div>
@@ -142,7 +142,7 @@ function startTutorial() {
 
     <br>
     <br>
-    <button v-on:click="submit_challenge()">Submit your own challenge</button>
+    <button v-on:click="submit_challenge()" style="font-size:12px;color:grey;background-color:rgba(50,50,50,0.2);">Submit your own challenge</button>
   </div>
 
   <div v-if="problem">
@@ -250,7 +250,11 @@ var app = new Vue({
     recordsindex: null,
     info: null,
     infotext: infotext,
-    difficulties: ["easy", "medium", "hard"],
+    difficulties: {
+      "easy": "rgba(20,150,10,0.2)",
+      "medium": "rgba(150,150,10,0.2)",
+      "hard": "rgba(150,20,10,0.2)",
+    },
   },
   methods: {
     decide(name) {
