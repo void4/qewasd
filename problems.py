@@ -281,7 +281,7 @@ problems = [
 {
 	"name": "ABC-1",
 
-	"difficulty": "hard",
+	"difficulty": "easy",
 
 	"steps": 35,
 
@@ -308,5 +308,6 @@ problems = [
 
 	"score": ["multiplyMany", "A", "B", "C"]
 },
+
 
 ]
