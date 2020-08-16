@@ -7,6 +7,14 @@ def atleast(key, value):
 		return env[key] >= value
 	return eval
 
+def atleastkey(key, key2):
+	def eval(env):
+		if key not in env:
+			return False
+		return env[key] >= env[key2]
+	return eval
+
+
 def equal(key, value):
 	def eval(env):
 		if key not in env:
@@ -49,6 +57,7 @@ def get(key):
 
 functions = {
 	"atleast": atleast,
+	"atleastkey": atleastkey,
 	"add": add,
 	"addMultiply": addMultiply,
 	"get": get,

@@ -149,4 +149,38 @@ problems = [
 
 	"score": ["get", "money"]
 },
+
+{
+	"name": "Linear Increasing Costs (Nosell)",
+
+	"difficulty": "medium",
+
+	"steps": 35,
+
+	"start": {
+		"money": 50,
+		"shipcost": 10,
+		"factorycost": 30,
+		"workshopcost": 50,
+	},
+
+	"oneof" : [
+		#["do nothing", [],[]],
+		["manual click", [],[["add", "money",1],]],
+		["buy ship", [["atleastkey", "money","shipcost"],], [["addMultiply", "money", "shipcost", -1], ["add", "ship", 1]]],
+		["buy factory", [["atleastkey", "money","factorycost"],], [["addMultiply", "money", "factorycost", -1], ["add", "factory", 1]]],
+		["buy workshop", [["atleastkey", "money","workshopcost"],], [["addMultiply", "money", "workshopcost", -1], ["add", "workshop", 1]]],
+	],
+
+	"always" : [
+		["ship cost increase", [], [["add", "shipcost", 1]]],
+		["factory cost increase", [], [["add", "factorycost", 1]]],
+		["workshop cost increase", [], [["add", "workshopcost", 1]]],
+		["ship income", [], [["addMultiply", "money", "ship", 3],]],
+		["factory income", [], [["addMultiply", "money", "factory", 5],]],
+		["workshop income", [], [["addMultiply", "money", "workshop", 9],]],
+	],
+
+	"score": ["get", "money"]
+},
 ]
