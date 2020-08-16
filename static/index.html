@@ -204,7 +204,8 @@ function startTutorial() {
     </div>
 
     <br><br>
-    <button onclick="javascript:startTutorial();">Tutorial</button>
+    <button onclick="javascript:startTutorial();">Tutorial</button><br>
+    <button v-on:click="choose_continue()">Quit</button>
   </div>
 
   <div v-if="records">
@@ -274,6 +275,7 @@ var app = new Vue({
     },
     choose_continue(index) {
       app.info = null;
+      app.problem = null;
       socket.emit("json", {"type":"continue", "data":null})
     },
     submit_challenge() {
