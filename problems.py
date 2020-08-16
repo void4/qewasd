@@ -116,7 +116,7 @@ problems = [
 {
 	"name": "Expendable Boosters",
 
-	"difficulty": "medium",
+	"difficulty": "hard",
 
 	"steps": 40,
 
