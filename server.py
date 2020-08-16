@@ -100,5 +100,18 @@ except FileNotFoundError:
     with open(RECORDFILE, "w+") as recordfile:
         pass
 
+from time import time
+
+tstart = time()
+totalclicks = 0
+for problemkey, lst in records.items():
+    print(lst)
+    for eh in lst:
+        totalclicks += len(eh[1])
+
+print(time()-tstart)
+
+print(totalclicks, "total clicks")
+
 if __name__ == '__main__':
     socketio.run(app)#, host="0.0.0.0")
