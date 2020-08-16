@@ -86,18 +86,18 @@ def handle_json(j):
     elif j["type"] == "continue":
         sendj("problems", problems)
 
+
+try:
+    with open(RECORDFILE) as recordfile:
+        lines = recordfile.read().splitlines()
+
+        for line in lines:
+            line = json.loads(line)
+            problemkey = json.dumps(line[0])
+            records[problemkey].append([line[1], line[2]])
+except FileNotFoundError:
+    with open(RECORDFILE, "w+") as recordfile:
+        pass
+
 if __name__ == '__main__':
-
-    try:
-        with open(RECORDFILE) as recordfile:
-            lines = recordfile.read().splitlines()
-
-            for line in lines:
-                line = json.loads(line)
-                problemkey = json.dumps(line[0])
-                records[problemkey].append([line[1], line[2]])
-    except FileNotFoundError:
-        with open(RECORDFILE, "w+") as recordfile:
-            pass
-
     socketio.run(app)#, host="0.0.0.0")

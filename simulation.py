@@ -116,6 +116,21 @@ def replay(problem, truehistory):
 
 	return env, history
 
+def treeplay(problem, truehistory):
+
+	env = deepcopy(problem.get("start", {}))
+	env["score"] = 0
+	env["step"] = 0
+	history = []
+
+	envs = [deepcopy(env)]
+
+	for decisionindex in truehistory:
+		env, history = single_step(problem, env, history, decisionindex)
+		envs.append(deepcopy(env))
+
+	return envs, history
+
 def df_rand(problem, env, history, step):
 	options = check_options(problem, env)
 	return choice([index for index, value in enumerate(options) if value])
