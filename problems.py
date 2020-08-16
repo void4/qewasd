@@ -26,7 +26,7 @@ problems = [
 {
 	"name": "Symmetric Ships and Factories",
 
-	"difficulty": "easy",
+	"difficulty": "medium",
 
 	"steps": 25,
 
@@ -54,7 +54,7 @@ problems = [
 {
 	"name": "Asymmetric Ships and Factories",
 
-	"difficulty": "easy",
+	"difficulty": "medium",
 
 	"steps": 25,
 
@@ -151,7 +151,7 @@ problems = [
 },
 
 {
-	"name": "Linear Increasing Costs (Nosell)",
+	"name": "Linear Increasing Costs (No sell)",
 
 	"difficulty": "medium",
 
@@ -185,7 +185,7 @@ problems = [
 },
 
 {
-	"name": "Exponentially Increasing Costs (Nosell)",
+	"name": "Exponentially Increasing Costs (No sell)",
 
 	"difficulty": "medium",
 
@@ -213,6 +213,35 @@ problems = [
 		["ship income", [], [["addMultiply", "money", "ship", 3],]],
 		["factory income", [], [["addMultiply", "money", "factory", 5],]],
 		["workshop income", [], [["addMultiply", "money", "workshop", 9],]],
+	],
+
+	"score": ["get", "money"]
+},
+
+{
+	"name": "Mouseclick Boosters",
+
+	"difficulty": "easy",
+
+	"steps": 25,
+
+	"start": {
+		"money": 5,
+		"clickincome": 1,
+		"l1cost": 5,
+		"l2cost": 7,
+		"l3cost": 11
+	},
+
+	"oneof" : [
+		#["do nothing", [],[]],
+		["manual click", [],[["addMultiply", "money","clickincome",1],]],
+		["buy level 1 boost", [["atleastkey", "money","l1cost"],], [["addMultiply", "money", "l1cost", -1], ["add", "clickincome", 1]]],
+		["buy level 2 boost", [["atleastkey", "money","l2cost"],], [["addMultiply", "money", "l2cost", -1], ["add", "clickincome", 3]]],
+		["buy level 3 boost", [["atleastkey", "money","l3cost"],], [["addMultiply", "money", "l3cost", -1], ["add", "clickincome", 5]]],
+	],
+
+	"always" : [
 	],
 
 	"score": ["get", "money"]
