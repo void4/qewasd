@@ -9,7 +9,7 @@ from simulation import treeplay
 from functions import convert
 from server import records
 
-from math import e,log
+from math import e,log,sin,cos
 
 def draw(problemkey):
     problem = convert(json.loads(problemkey))
@@ -39,7 +39,14 @@ def draw(problemkey):
 
 
         for i, env in enumerate(envs):
-            posdict[senvs[i]] = [env["step"], env["score"]]#1.01**env["score"])#log(1+env["score"]))
+            # Linear
+            #posdict[senvs[i]] = [env["step"], env["score"]]#1.01**env["score"])#log(1+env["score"]))
+
+            step = env["step"]
+            score = env["score"]**0.5
+
+            # Angular
+            posdict[senvs[i]] = [sin(step/2)*score, cos(step/2)*score]
 
     """
     # Normalization
@@ -72,6 +79,8 @@ def draw(problemkey):
 
     posdict = posdict2
     """
+
+    # use step as angle and score as radius?!
 
     plt.figure()
     plt.title(problem["name"] + " - Top "+str(top))
