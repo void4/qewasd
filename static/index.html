@@ -64,7 +64,7 @@ socket.on('event', function(data){
 });
 
 socket.on('json', function(message){
-  console.log(message)
+  //console.log(message)
   var type = message["type"]
   var data = message["data"]
   if (type == "problems") {

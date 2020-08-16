@@ -11,6 +11,7 @@ from functions import convert
 from server import records
 
 def draw(problemkey):
+    # TODO this doesn't work anymore
     problem = convert(json.loads(problemkey))
 
     posdict = {}

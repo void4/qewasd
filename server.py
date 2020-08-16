@@ -8,6 +8,7 @@ from flask_socketio import SocketIO, send, emit
 from problems import problems
 from simulation import single_step, check_options
 from functions import convert
+from database import get_problemkey
 
 RECORDFILE = "records.txt"
 
@@ -60,7 +61,7 @@ def handle_json(j):
             with open(RECORDFILE, "a") as recordfile:
                 recordfile.write(json.dumps([session["sproblem"], session["env"], session["history"]])+"\n")
 
-            problemkey = json.dumps(session["sproblem"])
+            problemkey = get_problemkey(session["sproblem"])
             records[problemkey].append([session["env"], session["history"]])
 
             c = Counter()
@@ -93,7 +94,7 @@ try:
 
         for line in lines:
             line = json.loads(line)
-            problemkey = json.dumps(line[0])
+            problemkey = get_problemkey(line[0])
             records[problemkey].append([line[1], line[2]])
 except FileNotFoundError:
     with open(RECORDFILE, "w+") as recordfile:
