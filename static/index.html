@@ -133,8 +133,11 @@ function startTutorial() {
 
   <div v-if="problems">
     <h2>Challenges</h2>
-    <div v-for="(p,index) in problems">
-      <button v-on:click="choose_problem(index)">{{p.name}}</button>
+    <div v-for="difficulty in difficulties">
+      <h4>{{difficulty}}</h4>
+      <div v-for="(p,index) in problems">
+        <button v-if="p.difficulty == difficulty" v-on:click="choose_problem(index)">{{p.name}}</button>
+      </div>
     </div>
 
     <br>
@@ -247,6 +250,7 @@ var app = new Vue({
     recordsindex: null,
     info: null,
     infotext: infotext,
+    difficulties: ["easy", "medium", "hard"],
   },
   methods: {
     decide(name) {

@@ -4,6 +4,8 @@ problems = [
 {
 	"name": "Clickediclick",
 
+	"difficulty": "easy",
+
 	"steps": 15,
 
 	"start": {
@@ -23,6 +25,8 @@ problems = [
 
 {
 	"name": "Symmetric Ships and Factories",
+
+	"difficulty": "easy",
 
 	"steps": 25,
 
@@ -50,6 +54,8 @@ problems = [
 {
 	"name": "Asymmetric Ships and Factories",
 
+	"difficulty": "easy",
+
 	"steps": 25,
 
 	"start": {
@@ -75,6 +81,8 @@ problems = [
 
 {
 	"name": "Asymmetric Complex",
+
+	"difficulty": "hard",
 
 	"steps": 50,
 
@@ -107,6 +115,8 @@ problems = [
 
 {
 	"name": "Expendable Boosters",
+
+	"difficulty": "medium",
 
 	"steps": 40,
 

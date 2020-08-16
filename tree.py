@@ -1,6 +1,7 @@
 # Construct decision tree
-
 import json
+from time import time
+from math import e,log,sin,cos
 
 import networkx as nx
 import matplotlib.pyplot as plt
@@ -8,8 +9,6 @@ import matplotlib.pyplot as plt
 from simulation import treeplay
 from functions import convert
 from server import records
-
-from math import e,log,sin,cos
 
 def draw(problemkey):
     problem = convert(json.loads(problemkey))
@@ -21,7 +20,7 @@ def draw(problemkey):
 
     sortedrecords = sorted(records[problemkey], key=lambda record:record[0]["score"], reverse=True)
 
-    top = 3
+    top = 5
 
     for record in sortedrecords[:top]:
         envs, history = treeplay(problem, record[1])
@@ -30,8 +29,6 @@ def draw(problemkey):
         senvs = [str(n) for n in envs]
 
         g.add_nodes_from(senvs)
-
-        print(senvs)
 
         for i,h in enumerate(history):
             g.add_edge(senvs[i], senvs[i+1])
@@ -92,6 +89,7 @@ def draw(problemkey):
     nx.draw(g, pos, edge_color=(0.5,0.5,0.5))
     nx.draw_networkx_labels(g, pos, font_size=6)
     nx.draw_networkx_edge_labels(g, pos, edge_labels=namedict, font_size=5)
+    plt.savefig(f"graphs/{int(time()*1000)}.png", dpi=300)
     plt.show()
 
 if __name__ == "__main__":
