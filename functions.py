@@ -1,4 +1,5 @@
 from copy import deepcopy
+from math import prod
 
 def atleast(key, value):
 	def eval(env):
@@ -43,12 +44,27 @@ def multiply(key1, key2):
 
 	return eval
 
+def multiplyMany(key1, *keys):
+	def eval(env):
+		return env.get(key1, 0) * prod([env.get(key, 0) for key in keys])
+
+	return eval
+
 def addMultiply(key,key2,multiplier):
 	def eval(env):
 		if key2 not in env:
 			return
 
 		env[key] += env[key2] * multiplier
+
+	return eval
+
+def setMultiply(key,key2,multiplier):
+	def eval(env):
+		if key2 not in env:
+			return
+
+		env[key] = env[key2] * multiplier
 
 	return eval
 
@@ -70,6 +86,8 @@ functions = {
 	"equal": equal,
 	"setkey": setkey,
 	"multiply": multiply,
+	"setMultiply": setMultiply,
+	"multiplyMany": multiplyMany,
 }
 
 def convert_function(f):

@@ -277,4 +277,36 @@ problems = [
 
 	"score": ["multiply", "A", "B"]
 },
+
+{
+	"name": "ABC-1",
+
+	"difficulty": "hard",
+
+	"steps": 35,
+
+	"start": {
+		"A": 5,
+		"B": 5,
+		"C": 5,
+		"dA": -1,
+		"dB": -1,
+		"dC": -1,
+	},
+
+	"oneof" : [
+		["click A", [],[["setMultiply", "A", "A", 2],]],
+		["click B", [],[["setMultiply", "B", "B", 2],]],
+		["click C", [],[["setMultiply", "C", "C", 2],]],
+	],
+
+	"always" : [
+		["da", [], [["add", "A", -1]]],
+		["db", [], [["add", "B", -1]]],
+		["dc", [], [["add", "C", -1]]],
+	],
+
+	"score": ["multiplyMany", "A", "B", "C"]
+},
+
 ]
