@@ -56,7 +56,10 @@ def AdivBtoC(target,a,b,c):
 		vb = env.get(b, 0)
 		vc = env.get(c, 0)
 		if vb != 0:
-			env[target] = (va/vb)**vc
+			try:
+				env[target] = (va/vb)**vc
+			except OverflowError:
+				pass
 
 	return eval
 
