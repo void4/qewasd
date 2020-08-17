@@ -117,7 +117,7 @@ totalclicks = 0
 for problemkey, lst in records.items():
     for eh in lst:
         totalgames += 1
-        totalclicks += len(eh[1])
+        totalclicks += len(eh[2])
 
 print(time()-tstart)
 
