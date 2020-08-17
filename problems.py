@@ -335,4 +335,32 @@ problems = [
 	"score": ["multiplyMany", "A", "B", "C"]
 },
 
+{
+	"name": "Approximating Pi",
+
+	"difficulty": "medium",
+
+	"steps": 35,
+
+	"start": {
+		"value": 0,
+		"A": 30,
+		"B": 20,
+		"C": 3,
+	},
+
+	"oneof" : [
+		["A = A + 1", [],[["add", "A", 1],]],
+		["A = A * 2", [],[["setMultiply", "A", "A", 2],]],
+		["A = A / 3", [],[["setMultiply", "A", "A", 1/3],]],
+		["rotate A,B,C", [],[["rotate", "A", "B", "C"],]],
+	],
+
+	"always" : [
+		["value = (A/B)^C", [], [["AdivBtoC", "value", "A", "B", "C"]]],
+	],
+
+	"score": ["absoluteDifference", "value", 3.141592653589793]
+},
+
 ]

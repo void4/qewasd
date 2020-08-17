@@ -50,6 +50,25 @@ def multiplyMany(key1, *keys):
 
 	return eval
 
+def AdivBtoC(target,a,b,c):
+	def eval(env):
+		va = env.get(a, 0)
+		vb = env.get(b, 0)
+		vc = env.get(c, 0)
+		if vb != 0:
+			env[target] = (va/vb)**vc
+
+	return eval
+
+def rotate(*keys):
+	def eval(env):
+		values = [env.get(key, 0) for key in keys]
+		rotated = (keys[-1],) + keys[:-1]
+		for index, key in enumerate(rotated):
+			env[key] = values[index]
+
+	return eval
+
 def addMultiply(key,key2,multiplier):
 	def eval(env):
 		if key2 not in env:
@@ -77,6 +96,15 @@ def get(key):
 
 	return eval
 
+def absoluteDifference(a,b):
+	def eval(env):
+		va = env.get(a, 0)
+		vb = env.get(b, 0)
+
+		return abs(vb-va)
+
+	return eval
+
 functions = {
 	"atleast": atleast,
 	"atleastkey": atleastkey,
@@ -88,6 +116,9 @@ functions = {
 	"multiply": multiply,
 	"setMultiply": setMultiply,
 	"multiplyMany": multiplyMany,
+	"AdivBtoC": AdivBtoC,
+	"rotate": rotate,
+	"absoluteDifference": absoluteDifference,
 }
 
 def convert_function(f):
