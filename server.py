@@ -1,6 +1,7 @@
 from collections import defaultdict, Counter
 from copy import deepcopy
 import json
+from time import time
 
 from flask import Flask, render_template, session
 from flask_socketio import SocketIO, send, emit
@@ -63,14 +64,16 @@ def handle_json(j):
 
         if session["env"]["step"] == session["problem"]["steps"]:
 
+            endtime = time()
+
             with open(RECORDFILE, "a") as recordfile:
-                recordfile.write(json.dumps([session["sproblem"], session["env"], session["history"]])+"\n")
+                recordfile.write(json.dumps([session["sproblem"], session["env"], session["history"], endtime])+"\n")
 
             totalgames += 1
             totalclicks += session["problem"]["steps"]
 
             problemkey = get_problemkey(session["sproblem"])
-            records[problemkey].append([session["sproblem"], session["env"], session["history"]])
+            records[problemkey].append([session["sproblem"], session["env"], session["history"], endtime])
 
             c = Counter()
 
@@ -104,7 +107,7 @@ try:
         for line in lines:
             line = json.loads(line)
             problemkey = get_problemkey(line[0])
-            records[problemkey].append([line[0], line[1], line[2]])
+            records[problemkey].append(line)
 except FileNotFoundError:
     with open(RECORDFILE, "w+") as recordfile:
         pass
