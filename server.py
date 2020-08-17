@@ -70,12 +70,12 @@ def handle_json(j):
             totalclicks += session["problem"]["steps"]
 
             problemkey = get_problemkey(session["sproblem"])
-            records[problemkey].append([session["env"], session["history"]])
+            records[problemkey].append([session["sproblem"], session["env"], session["history"]])
 
             c = Counter()
 
             for record in records[problemkey]:
-                c[record[0]["score"]] += 1
+                c[record[1]["score"]] += 1
 
             sortedrecords = sorted(c.items(), key=lambda item:item[0], reverse=True)
 
@@ -104,7 +104,7 @@ try:
         for line in lines:
             line = json.loads(line)
             problemkey = get_problemkey(line[0])
-            records[problemkey].append([line[1], line[2]])
+            records[problemkey].append([line[0], line[1], line[2]])
 except FileNotFoundError:
     with open(RECORDFILE, "w+") as recordfile:
         pass

@@ -53,6 +53,13 @@ ga('send', 'pageview');
   margin-left: 5px;
   background-image: linear-gradient(#f4f4f4, #cfffae);
 }
+
+.infobutton {
+  font-size:12px;
+  color:white;
+  background-color:rgba(50,50,50,0.2);
+}
+
 </style>
 <script type="text/javascript" src="js/socket.io.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
@@ -148,7 +155,8 @@ function startTutorial() {
 
     <br>
     <br>
-    <button v-on:click="submit_challenge()" style="font-size:12px;color:white;background-color:rgba(50,50,50,0.2);">Submit your own challenge</button>
+    <button v-on:click="submit_challenge()" class="infobutton">Submit your own challenge</button>
+    <button v-on:click="toggle_social()" class="infobutton">Social</button>
     <br>
     <p style="font-size:12px;">{{stats.totalgames}} total games played - {{stats.totalclicks}} total clicks</p>
   </div>
@@ -217,6 +225,11 @@ function startTutorial() {
     </div>
     <button v-on:click="choose_continue()">Continue</button>
   </div>
+
+  <div v-if="social">
+    <a href="https://reddit.com/r/qewasd">Reddit</a><br>
+    <a href="https://twitter.com/qewasdclicker">Twitter</a><br>
+  </div>
 </div>
 
 <script>
@@ -260,6 +273,7 @@ var app = new Vue({
     info: null,
     infotext: infotext,
     stats: null,
+    social: false,
     difficulties: {
       "easy": "rgba(20,150,10,0.2)",
       "medium": "rgba(150,150,10,0.2)",
@@ -274,6 +288,7 @@ var app = new Vue({
       socket.emit("json", {"type":"problem", "data":index})
     },
     choose_continue(index) {
+      app.social = null;
       app.info = null;
       app.problem = null;
       socket.emit("json", {"type":"continue", "data":null})
@@ -281,6 +296,9 @@ var app = new Vue({
     submit_challenge() {
       app.problems = null;
       app.info = true;
+    },
+    toggle_social() {
+      app.social = !app.social;
     }
   }
 })
