@@ -8,6 +8,13 @@ def atleast(key, value):
 		return env[key] >= value
 	return eval
 
+def atmost(key, value):
+	def eval(env):
+		if key not in env:
+			return False
+		return env[key] <= value
+	return eval
+
 def atleastkey(key, key2):
 	def eval(env):
 		if key not in env:
@@ -35,6 +42,15 @@ def add(key, value):
 			env[key] += value
 		else:
 			env[key] = value
+
+	return eval
+
+def addkey(key, key2):
+	def eval(env):
+		if key in env:
+			env[key] += env.get(key2, 0)
+		else:
+			env[key] = env.get(key2, 0)
 
 	return eval
 
@@ -109,6 +125,7 @@ def absoluteDifference(a,b):
 
 functions = {
 	"atleast": atleast,
+	"atmost": atmost,
 	"atleastkey": atleastkey,
 	"add": add,
 	"addMultiply": addMultiply,
@@ -121,11 +138,12 @@ functions = {
 	"AdivBtoC": AdivBtoC,
 	"rotate": rotate,
 	"absoluteDifference": absoluteDifference,
+	"addkey": addkey,
 }
 
 def convert_function(f):
 	if f[0] not in functions:
-		raise ValueError("Unknown function", name)
+		raise ValueError("Unknown function, [] missing!", name)
 
 	return functions[f[0]](*f[1:])
 

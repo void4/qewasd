@@ -363,4 +363,33 @@ problems = [
 	"score": ["absoluteDifference", "value", 3.141592653589793]
 },
 
+{
+	"name": "Lunar Landing",
+
+	"difficulty": "medium",
+
+	"steps": 35,
+
+	"start": {
+		"height": 1000,
+		"velocity": 0,
+		"acceleration": 0,
+		"thrust": 0,
+		"gravity": -1.62,
+	},
+
+	"oneof" : [
+		["do nothing", [],[]],
+		["increase thrust", [],[["add", "thrust", 1],]],
+		["decrease thrust", [],[["add", "thrust", -1],]],
+	],
+
+	"always" : [
+		["gravity acceleration", [], [["addkey", "acceleration", "gravity"], ["addkey", "acceleration", "thrust"], ["addkey", "velocity", "acceleration"], ["addkey", "height", "velocity"]]],
+		["crash", [["atmost", "height", -1]], [["setkey", "height", -1000000]]]
+	],
+
+	"score": ["absoluteDifference", "height", 0]
+},
+
 ]
