@@ -99,9 +99,8 @@ def get(key):
 def absoluteDifference(a,b):
 	def eval(env):
 		va = env.get(a, 0)
-		vb = env.get(b, 0)
 
-		return abs(vb-va)
+		return abs(b-va)
 
 	return eval
 
