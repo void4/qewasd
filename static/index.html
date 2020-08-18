@@ -189,9 +189,9 @@ function startTutorial() {
         <div>Effect</div>
       </div>
       <div v-for="(decision, index) in problem.oneof" style="display:grid;grid-template-columns:30% auto 30%">
-        {{JSON.stringify(decision[1]).replaceAll('"', '')}}
+        {{JSON.stringify(decision[1]).replaceAll('"', '').replaceAll(',', ' ').slice(1,-1)}}
         <button v-on:click="decide(decision[0])" :disabled="!options[index]">{{decision[0]}}</button>
-        {{JSON.stringify(decision[2]).replaceAll('"', '')}}
+        {{JSON.stringify(decision[2]).replaceAll('"', '').replaceAll(',', ' ').slice(1,-1)}}
       </div>
     </div>
 
@@ -205,9 +205,9 @@ function startTutorial() {
         <div>Effect</div>
       </div>
       <div v-for="decision in problem.always" style="display:grid;grid-template-columns:30% auto 30%">
-        <div>{{JSON.stringify(decision[1]).replaceAll('"', '')}}</div>
+        <div>{{JSON.stringify(decision[1]).replaceAll('"', '').replaceAll(',', ' ').slice(1,-1)}}</div>
         <div>{{decision[0]}}</div>
-        <div>{{JSON.stringify(decision[2]).replaceAll('"', '')}}</div>
+        <div>{{JSON.stringify(decision[2]).replaceAll('"', '').replaceAll(',', ' ').slice(1,-1)}}</div>
       </div>
     </div>
 
