@@ -4,7 +4,9 @@ from problems import problems
 
 
 def l2s(l):
-    if l[0] in ["atleast", "atleastkey"]:
+    if l[0] == "get":
+        return "(= " + l[1] + ")"
+    elif l[0] in ["atleast", "atleastkey"]:
         return l[1] + " >= " + str(l[2])
     elif l[0] == "atmost":
         return l[1] + " <= " + str(l[2])
@@ -33,6 +35,9 @@ def l2s(l):
 
 def stof(sproblem):
     p = deepcopy(sproblem)
+
+    p["score"] = l2s(p["score"])
+
     for di, decision in enumerate(p["oneof"]):
         p["oneof"][di][1] = ", ".join([l2s(c) for c in p["oneof"][di][1]])
         p["oneof"][di][2] = ", ".join([l2s(c) for c in p["oneof"][di][2]])
