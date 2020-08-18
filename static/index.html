@@ -171,7 +171,7 @@ function startTutorial() {
       <li>'steps' is the number of steps of your challenge</li>
       <li>'start' defines the starting environment</li>
       <li>'oneof' lists all decisions, where each decision consists of (1) its name, (2) a condition, a Python expression that evaluates to True or False (3) effects, either a single, or semicolon (;)-separated Python statements</li>
-      <li>'always' lists all actions that are evaluated every step after the decision, they too can have conditions</li>
+      <li>'always' lists all actions that are evaluated every step after the decision, they too can have conditions. If a decision has no conditions, set it to an empty string ""</li>
       <li>'score' shows how the score is calculated, in most cases it's equivalent to the money in the inventory, but it doesn't have to be</li>
     </ul>
 
@@ -292,7 +292,7 @@ var infotext = `{
 	},
 
 	"oneof" : [
-		["manual click", [], "money += 1"],
+		["manual click", "", "money += 1"],
 		["buy ship", "money >= 10", "money -= 10;ship += 1"],
 		["sell ship", "ship >= 1", "money += 5;ship -= 1"],
 		["buy factory", "money >= 20", "money -= 20;factory += 1"],
@@ -300,8 +300,8 @@ var infotext = `{
 	],
 
 	"always" : [
-		["ship income", [], "money += ship * 3"],
-		["factory income", [], "money += factory * 5"],
+		["ship income", "", "money += ship * 3"],
+		["factory income", "", "money += factory * 5"],
 	],
 
 	"score": "money"
