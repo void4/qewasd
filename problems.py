@@ -392,4 +392,36 @@ problems = [
 	"score": ["absoluteDifference", "height", 0]
 },
 
+{
+	"name": "Crafting Table and Cooked Fish",
+
+	"difficulty": "easy",
+
+	"steps": 70,
+
+	"start": {
+	},
+
+	"oneof" : [
+		["collect logs", [],[["add", "logs", 1],]],
+		["craft planks", [["atleast", "logs", 1]], [["add", "logs", -1], ["add", "planks", 4]]],
+		["craft sticks", [["atleast", "planks", 2]],[["add", "planks", -2], ["add", "sticks", 4],]],
+		["craft wooden pickaxe", [["atleast", "sticks", 2], ["atleast", "planks", 3]], [["add", "sticks", -2], ["add", "planks", -3], ["add", "pickaxe", 5],]],
+		["mine cobblestone", [["atleast", "pickaxe", 1]], [["add", "pickaxe", -1], ["add", "cobblestone", 1],]],
+		["craft oven", [["atleast", "cobblestone", 8]], [["add", "cobblestone", -1], ["add", "oven", 1]]],
+		["craft stone pickaxe", [["atleast", "sticks", 2], ["atleast", "cobblestone", 3]], [["add", "sticks", -2], ["add", "cobblestone", -3], ["add", "pickaxe", 10],]],
+		["mine coal", [["atleast", "pickaxe", 2]], [["add", "pickaxe", -2], ["add", "coal", 1],]],
+		["craft stone sword", [["atleast", "sticks", 1], ["atleast", "cobblestone", 2]], [["add", "sticks", -1], ["add", "cobblestone", -2], ["add", "sword", 5],]],
+		["kill spider", [["atleast", "sword", 1],], [["add", "sword", -1], ["add", "string", 1],]],
+		["fishing rod", [["atleast", "sticks", 3], ["atleast", "string", 2]], [["add", "sticks", -1], ["add", "string", -2], ["add", "fishing rod", 3]]],
+		["fish", [["atleast", "fishing rod", 1],], [["add", "fishing rod", -1], ["add", "fish", 1],]],
+		["cook fish", [["atleast", "coal", 1], ["atleast", "fish", 1], ["atleast", "oven", 1]], [["add", "coal", -1], ["add", "fish", -1], ["add", "cooked fish", 1]]]
+	],
+
+	"always" : [
+	],
+
+	"score": ["get", "cooked fish"]
+},
+
 ]
