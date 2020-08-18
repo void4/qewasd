@@ -17,6 +17,8 @@ def l2s(l):
         return l[1] + " += " + l[2]
     elif l[0] == "addMultiply":
         return l[1] + " += " + l[2] + " * " + str(l[3])
+    elif l[0] == "setMultiply":
+        return l[1] + " = " + l[2] + " * " + str(l[3])
     else:
         s = ""
         for x in l:
