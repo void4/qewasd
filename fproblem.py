@@ -6,11 +6,17 @@ from problems import problems
 def l2s(l):
     if l[0] in ["atleast", "atleastkey"]:
         return l[1] + " >= " + str(l[2])
+    elif l[0] == "atmost":
+        return l[1] + " <= " + str(l[2])
     elif l[0] == "add":
         if l[2] >= 0:
             return l[1] + " += " + str(l[2])
         else:
             return l[1] + " -= " + str(-l[2])
+    elif l[0] == "addkey":
+        return l[1] + " += " + l[2]
+    elif l[0] == "addMultiply":
+        return l[1] + " += " + l[2] + " * " + str(l[3])
     else:
         s = ""
         for x in l:
