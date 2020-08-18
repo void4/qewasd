@@ -170,7 +170,7 @@ function startTutorial() {
       <li>'name' is the name of the challenge</li>
       <li>'steps' is the number of steps of your challenge</li>
       <li>'start' defines the starting environment</li>
-      <li>'oneof' lists all decisions, where each decision consists of (1) its name, (2) a list of conditions (3) a list of effects</li>
+      <li>'oneof' lists all decisions, where each decision consists of (1) its name, (2) a condition, a Python expression that evaluates to True or False (3) effects, either a single, or semicolon (;)-separated Python statements</li>
       <li>'always' lists all actions that are evaluated every step after the decision, they too can have conditions</li>
       <li>'score' shows how the score is calculated, in most cases it's equivalent to the money in the inventory, but it doesn't have to be</li>
     </ul>
@@ -208,7 +208,7 @@ function startTutorial() {
       </h2>
     </div>
     <h2 data-step="1" data-intro="This is what its all about, increasing the score!">Score: {{score}}</h2>
-    {{ problem.score }}
+    (={{ problem.score }})
     <h4 data-step="2" data-intro="Each challenge only has a limited number of steps, after that, it is over and the result will be shown on the scoreboard.">Step: {{step}}/{{problem.steps}}</h4><br>
 
     <!--
@@ -279,28 +279,32 @@ function startTutorial() {
 <script>
 
 var infotext = `{
-  "name": "Asymmetric Ships and Factories",
+	"name": "Asymmetric Ships and Factories",
 
-  "steps": 25,
+	"difficulty": "medium",
 
-  "start": {
-    "money": 0,
-  },
+	"background": "snf.png",
 
-  "oneof" : [
-    ["manual click", [],[["add", "money",1],]],
-    ["buy ship", [["atleast", "money",10],], [["add", "money", -10], ["add", "ship", 1]]],
-    ["sell ship", [["atleast", "ship",1],],[["add", "money", 5], ["add", "ship", -1]]],
-    ["buy factory", [["atleast", "money",20],], [["add", "money", -20], ["add", "factory", 1]]],
-    ["sell factory", [["atleast", "factory",1],],[["add", "money", 10], ["add", "factory", -1]]],
-  ],
+	"steps": 25,
 
-  "always" : [
-    ["ship income", [], [["addMultiply", "money", "ship", 3],]],
-    ["factory income", [], [["addMultiply", "money", "factory", 5],]],
-  ],
+	"start": {
+		"money": 0,
+	},
 
-  "score": ["get", "money"]
+	"oneof" : [
+		["manual click", [], "money += 1"],
+		["buy ship", "money >= 10", "money -= 10;ship += 1"],
+		["sell ship", "ship >= 1", "money += 5;ship -= 1"],
+		["buy factory", "money >= 20", "money -= 20;factory += 1"],
+		["sell factory", "factory >= 1", "money += 10;factory -= 1"],
+	],
+
+	"always" : [
+		["ship income", [], "money += ship * 3"],
+		["factory income", [], "money += factory * 5"],
+	],
+
+	"score": "money"
 }`
 
 var app = new Vue({

@@ -8,7 +8,6 @@ from flask_socketio import SocketIO, send, emit
 
 from problems import problems
 from simulation import single_step, check_options
-from functions import convert
 from database import get_problemkey
 from fproblem import stof
 
@@ -44,16 +43,16 @@ def handle_json(j):
     global records, totalgames, totalclicks
     print('received json: ' + str(j))
     if j["type"] == "problem":
-        session["sproblem"] = problems[j["data"]]
-        session["problem"] = convert(session["sproblem"])
+        session["problem"] = problems[j["data"]]
         session["env"] = deepcopy(session["problem"].get("start", {}))
         session["env"]["step"] = 0
-        session["env"]["score"] = session["problem"]["score"](session["env"])
+        session["env"]["score"] = eval(session["problem"]["score"], session["env"])
         session["history"] = []
-        fproblem = stof(session["sproblem"])
-        sendj("problem", fproblem)
+        sendj("problem", session["problem"])
         options = check_options(session["problem"], session["env"])
         sendj("options", options)
+        if "__builtins__" in session["env"]:
+            del session["env"]["__builtins__"]
         sendj("env", session["env"])
 
     elif j["type"] == "decision":
@@ -69,13 +68,13 @@ def handle_json(j):
             endtime = time()
 
             with open(RECORDFILE, "a") as recordfile:
-                recordfile.write(json.dumps([session["sproblem"], session["env"], session["history"], endtime])+"\n")
+                recordfile.write(json.dumps([session["problem"], session["env"], session["history"], endtime])+"\n")
 
             totalgames += 1
             totalclicks += session["problem"]["steps"]
 
-            problemkey = get_problemkey(session["sproblem"])
-            records[problemkey].append([session["sproblem"], session["env"], session["history"], endtime])
+            problemkey = get_problemkey(session["problem"])
+            records[problemkey].append([session["problem"], session["env"], session["history"], endtime])
 
             c = Counter()
 
@@ -95,6 +94,8 @@ def handle_json(j):
             # TODO: Send all simultaneously?
             options = check_options(session["problem"], session["env"])
             sendj("options", options)
+            if "__builtins__" in session["env"]:
+                del session["env"]["__builtins__"]
             sendj("env", session["env"])
 
     elif j["type"] == "continue":
@@ -117,8 +118,8 @@ except FileNotFoundError:
 from time import time
 
 tstart = time()
-totalgames = 0
-totalclicks = 0
+totalgames = 2574
+totalclicks = 62545
 for problemkey, lst in records.items():
     for eh in lst:
         totalgames += 1

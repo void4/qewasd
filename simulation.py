@@ -10,7 +10,11 @@ from io_utils import NonBlockingInput
 def check_options(problem, env):
 	options = []
 	for index, thing in enumerate(problem["oneof"]):
-		options.append(all([condition(env) for condition in thing[1]]))
+		options.append(True if thing[1] == "" else eval(thing[1], env))
+
+	if "__builtins__" in env:
+		del env["__builtins__"]
+		
 	return options
 
 def single_step(problem, env, history, decisionfunc):
@@ -34,16 +38,17 @@ def single_step(problem, env, history, decisionfunc):
 	history.append(decisionindex)#[step, decisionindex])#also have to add invalid decisions
 	# TODO: allow null/None decision?
 	# TODO: specify behavior on invalid decisions
-	if all([condition(env) for condition in decision[1]]):
-		for effect in decision[2]:
-			effect(env)
+	if decision[1] == "" or eval(decision[1], env):
+		exec(decision[2], {}, env)
 
-	for thing in problem["always"]:
-		if all([condition(env) for condition in thing[1]]):
-			for effect in thing[2]:
-				effect(env)
+	for regular in problem["always"]:
+		if regular[1] == "" or eval(regular[1], env):
+			exec(regular[2], {}, env)
 
-	env["score"] = problem["score"](env)
+	env["score"] = eval(problem["score"], env)
+
+	if "__builtins__" in env:
+		del env["__builtins__"]
 
 	return env, history
 
