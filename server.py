@@ -10,6 +10,7 @@ from problems import problems
 from simulation import single_step, check_options
 from functions import convert
 from database import get_problemkey
+from fproblem import stof
 
 RECORDFILE = "records.txt"
 
@@ -49,7 +50,8 @@ def handle_json(j):
         session["env"]["step"] = 0
         session["env"]["score"] = session["problem"]["score"](session["env"])
         session["history"] = []
-        sendj("problem", session["sproblem"])
+        fproblem = stof(session["sproblem"])
+        sendj("problem", fproblem)
         options = check_options(session["problem"], session["env"])
         sendj("options", options)
         sendj("env", session["env"])
@@ -128,4 +130,4 @@ print(totalgames, "total games")
 print(totalclicks, "total clicks")
 
 if __name__ == '__main__':
-    socketio.run(app)#, host="0.0.0.0")
+    socketio.run(app, host="0.0.0.0")
