@@ -202,9 +202,9 @@ function startTutorial() {
 
   <div v-if="problem">
     <div class="header">
-      <h1>{{problem.name}}
+      <h2>{{problem.name}}
       <img id="background" v-if="problem.background" v-bind:src="'img/' + problem.background"></img>
-      </h1>
+      </h2>
     </div>
     <h2 data-step="1" data-intro="This is what its all about, increasing the score!">Score: {{score}}</h2>
     {{ problem.score }}
