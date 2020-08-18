@@ -93,6 +93,11 @@ body {
   padding-top:0;
   margin-bottom: 10px;
 }
+
+.textcenter {
+    text-align: center;
+}
+
 </style>
 <script type="text/javascript" src="js/socket.io.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
@@ -244,7 +249,7 @@ function startTutorial() {
       </div>
       <div v-for="decision in problem.always" style="display:grid;grid-template-columns:30% auto 30%">
         <div class="core">{{decision[1]}}</div>
-        <div>{{decision[0]}}</div>
+        <div class="textcenter">{{decision[0]}}</div>
         <div class="core">{{decision[2]}}</div>
       </div>
     </div>
