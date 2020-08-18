@@ -76,6 +76,23 @@ body {
   position: relative;
 }
 
+.actionheader {
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.core {
+  font-size: 14px;
+  text-align: center;
+}
+
+.bigactionheader {
+  text-align:center;
+  background-color:rgba(255,255,255,0.1);
+  padding-top:0;
+  margin-bottom: 10px;
+}
 </style>
 <script type="text/javascript" src="js/socket.io.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
@@ -196,45 +213,45 @@ function startTutorial() {
 
 
     <div v-if="env" data-step="3" data-intro="This is your inventory">
-      <h3>World</h3>
+      <h3 class="bigactionheader">World</h3>
       <div v-for="(value, key) in env">
         {{key}}: {{value}}
       </div>
     </div>
 
     <div style="display:flex;justify-content:center;flex-direction:column;" data-step="4" data-intro="These are the decisions you can make. You can only make one per step. The conditions for being able to make a decision are on the left, its effects on the right.">
-      <h3>One of</h3>
+      <h3 class="bigactionheader">Choose one of</h3>
       <div style="display:grid;grid-template-columns:30% auto 30%">
-        <div>Condition</div>
-        <div>Action</div>
-        <div>Effect</div>
+        <div class="actionheader">Condition</div>
+        <div class="actionheader">Action</div>
+        <div class="actionheader">Effect</div>
       </div>
       <div v-for="(decision, index) in problem.oneof" style="display:grid;grid-template-columns:30% auto 30%">
-        <div>{{decision[1]}}</div>
+        <div class="core">{{decision[1]}}</div>
         <button v-on:click="decide(decision[0])" :disabled="!options[index]">{{decision[0]}}</button>
-        <div>{{decision[2]}}</div>
+        <div class="core">{{decision[2]}}</div>
       </div>
     </div>
 
     <br>
 
     <div style="display:flex;justify-content:center;flex-direction:column;" data-step="5" data-intro="These things are always executed after a decision">
-      <h3>Always</h3>
+      <h3 class="bigactionheader">Regular</h3>
       <div style="display:grid;grid-template-columns:30% auto 30%">
-        <div>Condition</div>
-        <div>Action</div>
-        <div>Effect</div>
+        <div class="actionheader">Condition</div>
+        <div class="actionheader">Action</div>
+        <div class="actionheader">Effect</div>
       </div>
       <div v-for="decision in problem.always" style="display:grid;grid-template-columns:30% auto 30%">
-        <div>{{decision[1]}}</div>
+        <div class="core">{{decision[1]}}</div>
         <div>{{decision[0]}}</div>
-        <div>{{decision[2]}}</div>
+        <div class="core">{{decision[2]}}</div>
       </div>
     </div>
 
     <br><br>
-    <button onclick="javascript:startTutorial();">Tutorial</button><br>
-    <button v-on:click="choose_continue()">Quit</button>
+    <button class="infobutton" onclick="javascript:startTutorial();">Tutorial</button>
+    <button class="infobutton" v-on:click="choose_continue()">Quit</button>
   </div>
 
   <div v-if="records">
