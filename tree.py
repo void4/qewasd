@@ -7,7 +7,6 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 from simulation import treeplay
-from functions import convert
 from server import records
 from database import get_problemkey
 
@@ -23,7 +22,7 @@ def draw(problemkey):
     top = 5
 
     for record in sortedrecords[:top]:
-        problem = convert(record[0])
+        problem = record[0]
         envs, history = treeplay(problem, record[2])
 
         # TODO: sort keys! - they'll have the same position already

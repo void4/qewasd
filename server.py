@@ -9,7 +9,6 @@ from flask_socketio import SocketIO, send, emit
 from problems import problems
 from simulation import single_step, check_options
 from database import get_problemkey
-from fproblem import stof
 
 RECORDFILE = "records.txt"
 
