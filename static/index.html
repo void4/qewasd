@@ -65,6 +65,17 @@ body {
   background-color:rgba(50,50,50,0.2);
 }
 
+.header img {
+  float: right;
+  position: absolute;
+  width: auto;
+  padding: 0;
+}
+
+.header h1 {
+  position: relative;
+}
+
 </style>
 <script type="text/javascript" src="js/socket.io.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
@@ -89,7 +100,7 @@ socket.on('json', function(message){
   } else if (type == "problem") {
     app.problems = null;
     app.problem = data;
-    document.body.style.backgroundImage = `url('img/${app.problem.background}')`;
+    //document.body.style.backgroundImage = `url('img/${app.problem.background}')`;
   } else if (type == "env") {
     app.env = data;
     app.score = data.score;
@@ -168,7 +179,11 @@ function startTutorial() {
   </div>
 
   <div v-if="problem">
-    <h1>{{problem.name}}</h1>
+    <div class="header">
+      <h1>{{problem.name}}
+      <img id="background" v-if="problem.background" v-bind:src="'img/' + problem.background"></img>
+      </h1>
+    </div>
     <h2 data-step="1" data-intro="This is what its all about, increasing the score!">Score: {{score}}</h2>
     {{ problem.score }}
     <h4 data-step="2" data-intro="Each challenge only has a limited number of steps, after that, it is over and the result will be shown on the scoreboard.">Step: {{step}}/{{problem.steps}}</h4><br>
