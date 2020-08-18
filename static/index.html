@@ -39,9 +39,15 @@ ga('send', 'pageview');
   touch-action: manipulation;
 }
 
-body {
-  background-size: 100%;
-  background-repeat: no-repeat;
+.header img {
+  float: right;
+  position: absolute;
+  width: auto;
+  padding: 0;
+}
+
+.header h1 {
+  position: relative;
 }
 
 @media only screen and (max-width: 800px) {
@@ -50,6 +56,10 @@ body {
    min-width:100%;
    margin:0;
    padding:0;
+ }
+
+ .header img {
+   position: relative;
  }
 }
 
@@ -65,16 +75,7 @@ body {
   background-color:rgba(50,50,50,0.2);
 }
 
-.header img {
-  float: right;
-  position: absolute;
-  width: auto;
-  padding: 0;
-}
 
-.header h1 {
-  position: relative;
-}
 
 .actionheader {
   text-align: center;
