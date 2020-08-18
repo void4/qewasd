@@ -28,6 +28,8 @@ problems = [
 
 	"difficulty": "medium",
 
+	"background": "snf.png",
+
 	"steps": 25,
 
 	"start": {
@@ -55,6 +57,8 @@ problems = [
 	"name": "Asymmetric Ships and Factories",
 
 	"difficulty": "medium",
+
+	"background": "snf.png",
 
 	"steps": 25,
 

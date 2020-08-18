@@ -39,6 +39,11 @@ ga('send', 'pageview');
   touch-action: manipulation;
 }
 
+body {
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
 @media only screen and (max-width: 800px) {
  body {
    width: 100%;
@@ -84,6 +89,7 @@ socket.on('json', function(message){
   } else if (type == "problem") {
     app.problems = null;
     app.problem = data;
+    document.body.style.backgroundImage = `url('img/${app.problem.background}')`;
   } else if (type == "env") {
     app.env = data;
     app.score = data.score;
@@ -162,8 +168,8 @@ function startTutorial() {
   </div>
 
   <div v-if="problem">
-
-    <h1 data-step="1" data-intro="This is what its all about, increasing the score!">Score: {{score}}</h1>
+    <h1>{{problem.name}}</h1>
+    <h2 data-step="1" data-intro="This is what its all about, increasing the score!">Score: {{score}}</h2>
     {{ problem.score }}
     <h4 data-step="2" data-intro="Each challenge only has a limited number of steps, after that, it is over and the result will be shown on the scoreboard.">Step: {{step}}/{{problem.steps}}</h4><br>
 
@@ -175,14 +181,14 @@ function startTutorial() {
 
 
     <div v-if="env" data-step="3" data-intro="This is your inventory">
-      <h2>World</h2>
+      <h3>World</h3>
       <div v-for="(value, key) in env">
         {{key}}: {{value}}
       </div>
     </div>
 
     <div style="display:flex;justify-content:center;flex-direction:column;" data-step="4" data-intro="These are the decisions you can make. You can only make one per step. The conditions for being able to make a decision are on the left, its effects on the right.">
-      <h2>One of</h2>
+      <h3>One of</h3>
       <div style="display:grid;grid-template-columns:30% auto 30%">
         <div>Condition</div>
         <div>Action</div>
@@ -198,7 +204,7 @@ function startTutorial() {
     <br>
 
     <div style="display:flex;justify-content:center;flex-direction:column;" data-step="5" data-intro="These things are always executed after a decision">
-      <h2>Always</h2>
+      <h3>Always</h3>
       <div style="display:grid;grid-template-columns:30% auto 30%">
         <div>Condition</div>
         <div>Action</div>
