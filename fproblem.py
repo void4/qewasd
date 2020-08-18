@@ -4,16 +4,24 @@ from problems import problems
 
 
 def l2s(l):
-    s = ""
-    for x in l:
-        if isinstance(x, str):
-            s += x
-        elif isinstance(x, int):
-            s += str(x)
+    if l[0] in ["atleast", "atleastkey"]:
+        return l[1] + " >= " + str(l[2])
+    elif l[0] == "add":
+        if l[2] >= 0:
+            return l[1] + " += " + str(l[2])
+        else:
+            return l[1] + " -= " + str(-l[2])
+    else:
+        s = ""
+        for x in l:
+            if isinstance(x, str):
+                s += x
+            elif isinstance(x, int):
+                s += str(x)
 
-        s += " "
+            s += " "
 
-    return s[:-1]
+        return s[:-1]
 
 def stof(sproblem):
     p = deepcopy(sproblem)
