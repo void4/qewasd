@@ -135,7 +135,7 @@ problems = [
 		"factory": 0,
 		"workshop": 0,
 		"booster": 0,
-		"boostertime": 0
+		"boostertimer": 0
 	},
 
 	"oneof" : [
