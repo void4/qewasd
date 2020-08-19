@@ -440,7 +440,7 @@ problems = [
 		["mine coal", "pickaxe >= 2", "pickaxe -= 2;coal += 1"],
 		["craft stone sword", "sticks >= 1 and cobblestone >= 2", "sticks -= 1;cobblestone -= 2;sword += 5"],
 		["kill spider", "sword >= 1", "sword -= 1;string += 1"],
-		["craft stone sword", "sticks >= 3 and string >= 2", "sticks -= 3;string -= 2;fishingrod += 3"],
+		["craft fishing rod", "sticks >= 3 and string >= 2", "sticks -= 3;string -= 2;fishingrod += 3"],
 		["fish", "fishingrod >= 1", "fishingrod -= 1;fish += 1"],
 		["cook fish", "oven >= 1 and fish >= 1 and coal >= 1", "fish -= 1;coal -= 1;cookedfish += 1"],
 	],

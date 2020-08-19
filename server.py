@@ -117,8 +117,8 @@ except FileNotFoundError:
 from time import time
 
 tstart = time()
-totalgames = 2574
-totalclicks = 62545
+totalgames = 3450
+totalclicks = 85585
 for problemkey, lst in records.items():
     for eh in lst:
         totalgames += 1
