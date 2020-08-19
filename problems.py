@@ -368,7 +368,7 @@ problems = [
 		["A = A + 1", "", "A += 1"],
 		["A = A * 2", "", "A *= 2"],
 		["A = A / 3", "", "A /= 3"],
-		["rotate A,B,C", "", "t=A;A=C;B=A;C=t"],
+		["rotate A,B,C", "", "t=C;C=B;B=A;A=t"],
 	],
 
 	"always" : [
