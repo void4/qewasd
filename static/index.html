@@ -117,7 +117,7 @@ canvas {
 <script type="text/javascript" src="js/socket.io.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script>
-var socket = 1 ? io() : io(":5000");
+var socket = 0 ? io() : io(":5000");
 
 socket.on('connect', function(){
 
@@ -153,6 +153,19 @@ socket.on('json', function(message){
     app.options = data;
   } else if (type == "stats") {
     app.stats = data;
+  } else if (type == "rps-status") {
+    app.rps = data;
+    app.rps_phase = 0;
+    app.rps_score = 0;
+
+    if (data == null) {
+      app.choose_continue()
+    }
+  } else if (type == "rps-update") {
+    app.rps_status = data.status;
+    app.rps_score = data.score;
+    app.rps_score_other = data.other;
+    app.rps_phase = data.phase;
   }
 });
 
@@ -162,6 +175,11 @@ socket.on('message', function(data){
 
 socket.on('disconnect', function(){
 
+});
+
+window.addEventListener("beforeunload", function() {
+  console.log("Disconnecting...")
+  socket.disconnect();
 });
 
 function startTutorial() {
@@ -208,6 +226,8 @@ function startTutorial() {
       </div>
     </div>
 
+    <br>
+    <button v-on:click="choose_rps()">Rock Paper Scissors</button>
     <br>
     <br>
     <button v-on:click="submit_challenge()" class="infobutton">Submit your own challenge</button>
@@ -289,6 +309,22 @@ function startTutorial() {
     <a href="https://reddit.com/r/qewasd">Reddit</a><br>
     <a href="https://twitter.com/qewasdclicker">Twitter</a><br>
   </div>
+
+  <div v-if="rps=='matching'">
+    Matching...
+  </div>
+
+  <div v-if="rps=='match'">
+    Match
+    <button v-on:click="choose_rps_action(0)" :disabled="rps_phase!=0">Rock</button>
+    <button v-on:click="choose_rps_action(1)" :disabled="rps_phase!=0">Paper</button>
+    <button v-on:click="choose_rps_action(2)" :disabled="rps_phase!=0">Scissors</button>
+    <br>
+    <h2>Me: {{rps_score}} Stranger:{{rps_score_other}}</h2>
+    <h3>{{rps_status}}</h3>
+    <br>
+    <button class="infobutton" v-on:click="choose_continue_rps()">Quit</button>
+  </div>
 </div>
 
 <script>
@@ -337,6 +373,10 @@ var app = new Vue({
     infotext: infotext,
     stats: null,
     social: false,
+    rps: null,
+    rps_status: null,
+    rps_score: 0,
+    rps_score_other: 0,
     difficulties: {
       "easy": "rgba(20,150,10,0.2)",
       "medium": "rgba(150,150,10,0.2)",
@@ -350,11 +390,27 @@ var app = new Vue({
     choose_problem(index) {
       socket.emit("json", {"type":"problem", "data":index})
     },
-    choose_continue(index) {
+    choose_rps() {
+      socket.emit("json", {"type":"rps", "data":null})
+      app.social = null;
+      app.info = null;
+      app.problems = null;
+      app.problem = null;
+    },
+    choose_rps_action(index) {
+      socket.emit("json", {"type":"rps_action", "data":index})
+    },
+    choose_continue() {
+      app.rps = null;
+      app.rps_status = null;
+      app.rps_score = null;
       app.social = null;
       app.info = null;
       app.problem = null;
       socket.emit("json", {"type":"continue", "data":null})
+    },
+    choose_continue_rps() {
+      socket.emit("json", {"type":"continue_rps", "data":null})
     },
     submit_challenge() {
       app.problems = null;

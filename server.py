@@ -3,7 +3,7 @@ from copy import deepcopy
 import json
 from time import time
 
-from flask import Flask, render_template, session
+from flask import Flask, render_template, session, request
 from flask_socketio import SocketIO, send, emit
 
 from problems import problems
@@ -16,15 +16,66 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app, cors_allowed_origins="*")
 
+# TODO: Redis
+#sessions = {}
 
-def sendj(typ, j):
-    send({"type":typ, "data":j}, json=True)
+rps_players = []
+rps_games = []
+
+def get_game(sid):
+    for game in rps_games:
+        if sid in [player["id"] for player in game]:
+            return game
+
+def delete_game(sid):
+    # Race conditions galore
+    game = get_game(sid)
+    rps_games.remove(game)
+
+def sendjall(typ, j, game, *args, **kwargs):
+    for player in game:
+        sendj(typ, j, room=player["id"], *args, **kwargs)
+
+def rps_match(seeking):
+    #for player in list(rps_players):
+    if len(rps_players) > 0:
+        player = rps_players[0]
+        #if player["status"] == "waiting":
+        #rps_players.remove(seeking)
+        rps_players.remove(player)
+        game = [{"id":seeking, "score":0}, {"id":player, "score":0}]
+        rps_games.append(game)
+        return game
+
+    rps_players.append(seeking)
+    return None
+
+def sendj(typ, j, *args, **kwargs):
+    send({"type":typ, "data":j}, json=True, *args, **kwargs)
+
+"""
+pid = 0
+def player_id():
+    global pid
+    pid += 1
+    return pid
+"""
 
 @socketio.on('connect')
 def handle_connect():
-    print('connected')
+    print('connected', request.sid)
+    #session["id"] = player_id()
     sendj("problems", problems)
     sendj("stats", stats())
+    #sessions[request.sid] = session
+
+@socketio.on('disconnect')
+def handle_disconnect():
+    print("disconnected", request.sid)
+    game = get_game(request.sid)
+    if game is not None:
+        sendjall("rps-status", None, game)
+        delete_game(request.sid)
 
 def stats():
     global totalgames, totalclicks
@@ -101,6 +152,66 @@ def handle_json(j):
         sendj("problems", problems)
         sendj("stats", stats())
 
+    elif j["type"] == "continue_rps":
+        game = get_game(request.sid)
+        sendjall("rps-status", None, game)
+        delete_game(request.sid)
+
+    elif j["type"] == "rps":
+        game = rps_match(request.sid)
+        if game is None:
+            sendj("rps-status", "matching")
+        else:
+            sendjall("rps-status", "match", game)
+            #session["rpsgame"] = game
+            # Doesn't work
+            #sessions[game[0]["id"] if game[0]["id"]!=request.sid else game[1]["id"]]["rpsgame"] = game
+    elif j["type"] == "rps_action":
+        game = get_game(request.sid)#session["rpsgame"]
+        data = j["data"]
+        player, other = game if game[0]["id"] == request.sid else game[::-1]
+        player["decision"] = data
+        print(game)
+        if "decision" in other:
+            d1 = player["decision"]
+            d2 = other["decision"]
+
+            # TODO check validity of values
+
+            if d1 == d2:
+                # Tie
+                #sendjall("rps-update", {"phase":0, "status":"tie", game)
+
+                del player["decision"]
+                del other["decision"]
+
+                sendj("rps-update", {"phase": 0, "status":"tie", "score":player["score"], "other": other["score"]}, room=player["id"])
+                sendj("rps-update", {"phase": 0, "status":"tie", "score":other["score"], "other": player["score"]}, room=other["id"])
+
+                return
+            elif (d1+1)%3 == d2:
+                winner = other
+                loser = player
+            else:
+                winner = player
+                loser = other
+
+            winner["score"] += 1
+
+            names = ["rock", "paper", "scissors"]
+
+            dw = names[winner["decision"]]
+            dl = names[loser["decision"]]
+
+            del winner["decision"]
+            del loser["decision"]
+
+            sendj("rps-update", {"phase": 0, "status": f"win! - loser chose {dl}", "score":winner["score"], "other": loser["score"]}, room=winner["id"])
+            sendj("rps-update", {"phase": 0, "status": f"lost! - winner chose {dw}", "score":loser["score"], "other": winner["score"]}, room=loser["id"])
+
+        else:
+            sendj("rps-update", {"phase": 1, "status":"Waiting for other player...", "score":player["score"]}, room=player["id"])
+
 
 try:
     with open(RECORDFILE) as recordfile:
@@ -113,8 +224,6 @@ try:
 except FileNotFoundError:
     with open(RECORDFILE, "w+") as recordfile:
         pass
-
-from time import time
 
 tstart = time()
 totalgames = 3450
