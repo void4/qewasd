@@ -81,6 +81,9 @@ def handle_disconnect():
         sendjall("rps-status", None, game)
         delete_game(request.sid)
 
+    if request.sid in rps_players:
+        rps_players.remove(request.sid)
+
 def stats():
     global totalgames, totalclicks
     return {"totalgames":totalgames, "totalclicks":totalclicks}
