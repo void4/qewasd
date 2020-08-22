@@ -2,6 +2,7 @@ from collections import defaultdict, Counter
 from copy import deepcopy
 import json
 from time import time
+import os
 
 from flask import Flask, render_template, session, request
 from flask_socketio import SocketIO, send, emit
@@ -11,6 +12,7 @@ from simulation import single_step, check_options
 from database import get_problemkey
 
 RECORDFILE = "records.txt"
+RPSRECORDFILE = "rpsrecords.txt"
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
@@ -30,6 +32,8 @@ def get_game(sid):
 def delete_game(sid):
     # Race conditions galore
     game = get_game(sid)
+    with open(RPSRECORDFILE, "a" if os.path.exists(RPSRECORDFILE) else "w") as recordfile:
+        recordfile.write(json.dumps(game)+"\n")
     rps_games.remove(game)
 
 def sendjall(typ, j, game, *args, **kwargs):
@@ -43,7 +47,7 @@ def rps_match(seeking):
         #if player["status"] == "waiting":
         #rps_players.remove(seeking)
         rps_players.remove(player)
-        game = [{"id":seeking, "score":0}, {"id":player, "score":0}]
+        game = [{"id":seeking, "score":0, "history":[]}, {"id":player, "score":0, "history":[]}]
         rps_games.append(game)
         return game
 
@@ -177,6 +181,9 @@ def handle_json(j):
             d2 = other["decision"]
 
             # TODO check validity of values
+
+            player["history"].append(d1)
+            other["history"].append(d2)
 
             if d1 == d2:
                 # Tie
