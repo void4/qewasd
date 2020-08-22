@@ -117,7 +117,7 @@ canvas {
 <script type="text/javascript" src="js/socket.io.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script>
-var socket = 1 ? io() : io(":5000");
+var socket = 0 ? io() : io(":5000");
 
 socket.on('connect', function(){
 
@@ -312,6 +312,8 @@ function startTutorial() {
 
   <div v-if="rps=='matching'">
     Matching...
+    <br>
+    <button class="infobutton" v-on:click="choose_continue_rps()">Cancel</button>
   </div>
 
   <div v-if="rps=='match'">

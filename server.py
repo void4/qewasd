@@ -161,8 +161,14 @@ def handle_json(j):
 
     elif j["type"] == "continue_rps":
         game = get_game(request.sid)
-        sendjall("rps-status", None, game)
-        delete_game(request.sid)
+        if game:
+            delete_game(request.sid)
+            sendjall("rps-status", None, game)
+        else:
+            sendj("rps-status", None, room=request.sid)
+
+        if request.sid in rps_players:
+            rps_players.remove(request.sid)
 
     elif j["type"] == "rps":
         game = rps_match(request.sid)
