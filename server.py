@@ -242,8 +242,8 @@ except FileNotFoundError:
         pass
 
 tstart = time()
-totalgames = 3450
-totalclicks = 85585
+totalgames = 7975
+totalclicks = 200725
 for problemkey, lst in records.items():
     for eh in lst:
         totalgames += 1
