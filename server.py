@@ -105,6 +105,7 @@ def handle_json(j):
         session["env"]["step"] = 0
         session["env"]["score"] = eval(session["problem"]["score"], session["env"])
         session["history"] = []
+        session["lock"] = False
         sendj("problem", session["problem"])
         options = check_options(session["problem"], session["env"])
         sendj("options", options)
@@ -116,6 +117,11 @@ def handle_json(j):
 
         if session["env"] is None:
             return
+
+        if session["lock"]:
+            return
+
+        session["lock"] = True
 
         # TODO avoid double submits somehow
         session["env"], session["history"] = single_step(session["problem"], session["env"], session["history"], j["data"])
@@ -155,9 +161,12 @@ def handle_json(j):
                 del session["env"]["__builtins__"]
             sendj("env", session["env"])
 
+        session["lock"] = False
+
     elif j["type"] == "continue":
         sendj("problems", problems)
         sendj("stats", stats())
+        session.pop("problem", None)
 
     elif j["type"] == "continue_rps":
         game = get_game(request.sid)
