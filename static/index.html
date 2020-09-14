@@ -117,7 +117,7 @@ canvas {
 <script type="text/javascript" src="js/socket.io.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script>
-var socket = 1 ? io() : io(":5000");
+var socket = window.location.host != "0.0.0.0:8000" ? io() : io(":5000");
 
 socket.on('connect', function(){
 
