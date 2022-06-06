@@ -115,7 +115,7 @@ def handle_json(j):
 
     elif j["type"] == "decision":
 
-        if session["env"] is None:
+        if session.get("env") is None:
             return
 
         if session["lock"]:
