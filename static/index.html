@@ -102,10 +102,14 @@ canvas {
   z-index: -13;
 }
 </style>
-<script type="text/javascript" src="js/socket.io.js"></script>
+<script type="text/javascript" src="js/socket.io.min.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script>
-var socket = window.location.host != "0.0.0.0:8000" ? io() : io(":5000");
+var options = {
+   transports: [ 'polling' ]//, 'websocket'
+};
+
+var socket = window.location.host != "0.0.0.0:8000" ? io(null, options) : io(":5000", options);
 
 socket.on('connect', function(){
 
