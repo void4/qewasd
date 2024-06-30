@@ -7,6 +7,8 @@ import os
 from flask import Flask, render_template, session, request
 from flask_socketio import SocketIO, send, emit
 
+from config import config
+
 from problems import problems
 from simulation import single_step, check_options
 from database import get_problemkey
@@ -15,7 +17,8 @@ RECORDFILE = "records.txt"
 RPSRECORDFILE = "rpsrecords.txt"
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'secret!'
+for key, value in config.items():
+    app.config[key] = value
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 # TODO: Redis
@@ -264,4 +267,4 @@ print(totalgames, "total games")
 print(totalclicks, "total clicks")
 
 if __name__ == '__main__':
-    socketio.run(app, host="0.0.0.0")
+    socketio.run(app, host="0.0.0.0", allow_unsafe_werkzeug=True)
