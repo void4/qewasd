@@ -1,4 +1,4 @@
 pkill python
 python server.py &
-python -m http.server
+cd static && python -m http.server
 wait
