@@ -7,6 +7,8 @@ import os
 from flask import Flask, render_template, session, request
 from flask_socketio import SocketIO, send, emit
 
+from simpleeval import simple_eval
+
 from config import config
 
 from problems import problems
@@ -106,7 +108,7 @@ def handle_json(j):
         session["problem"] = problems[j["data"]]
         session["env"] = deepcopy(session["problem"].get("start", {}))
         session["env"]["step"] = 0
-        session["env"]["score"] = eval(session["problem"]["score"], session["env"])
+        session["env"]["score"] = simple_eval(session["problem"]["score"], names=session["env"])
         session["history"] = []
         session["lock"] = False
         sendj("problem", session["problem"])
@@ -267,4 +269,4 @@ print(totalgames, "total games")
 print(totalclicks, "total clicks")
 
 if __name__ == '__main__':
-    socketio.run(app, host="0.0.0.0")#, allow_unsafe_werkzeug=True needed for newer version
+    socketio.run(app, host="0.0.0.0", allow_unsafe_werkzeug=True)# needed for newer version
