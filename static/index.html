@@ -189,7 +189,9 @@ function startTutorial() {
 <div id="app">
 
   <div v-if="info">
-    A problem statement looks like this:
+    <h3>A problem statement looks like this:</h3>
+
+    <pre>{{infotext}}</pre>
 
     <ul>
       <li>'name' is the name of the challenge</li>
@@ -200,9 +202,7 @@ function startTutorial() {
       <li>'score' shows how the score is calculated, in most cases it's equivalent to the money in the inventory, but it doesn't have to be</li>
     </ul>
 
-    <pre>{{infotext}}</pre>
-
-    When you are done, send me an email at <a href="mailto:challenge@qewasd.com">challenge@qewasd.com</a>!
+    When you have created your own, create an issue on the <a href="https://github.com/void4/qewasd/issues">qewasd github page</a>!<br>
     <br>
     <button v-on:click="choose_continue()">Go back to main menu</button>
     <br>
@@ -225,7 +225,6 @@ function startTutorial() {
     <br>
     <br>
     <button v-on:click="submit_challenge()" class="infobutton">Submit your own challenge</button>
-    <button v-on:click="toggle_social()" class="infobutton">Social</button>
     <br>
     <p style="font-size:12px;">{{stats.totalgames}} total games played - {{stats.totalclicks}} total clicks</p>
   </div>
@@ -299,11 +298,6 @@ function startTutorial() {
     <button v-on:click="choose_continue()">Continue</button>
   </div>
 
-  <div v-if="social">
-    <a href="https://reddit.com/r/qewasd">Reddit</a><br>
-    <a href="https://twitter.com/qewasdclicker">Twitter</a><br>
-  </div>
-
   <div v-if="rps=='matching'">
     Matching...
     <br>
@@ -368,7 +362,6 @@ var app = new Vue({
     info: null,
     infotext: infotext,
     stats: null,
-    social: false,
     rps: null,
     rps_status: null,
     rps_score: 0,
@@ -412,9 +405,6 @@ var app = new Vue({
       app.problems = null;
       app.info = true;
     },
-    toggle_social() {
-      app.social = !app.social;
-    }
   }
 })
 </script>
